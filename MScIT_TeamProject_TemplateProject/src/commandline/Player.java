@@ -13,9 +13,19 @@ public class Player {
         this.name = name;
     }
 
-    public Card peekAtTopCard() {
+    public void addCard(Card c){
+        cards.push(c);
+    }
+
+    public Card peekAtTopCard(){
 
         return deck.getCards().peek();
+
+    }
+
+    public Deck getDeck(){
+
+        return deck;
     }
 
     public Card removeCardFromDeck() {
