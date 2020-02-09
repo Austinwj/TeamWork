@@ -9,6 +9,7 @@ public class Game {
     private ArrayList<Card> cardList = new ArrayList<Card>();
     private int num;
     private Player p1;
+    Scanner sc = new Scanner(System.in);
 
 
     public void play(){
@@ -20,7 +21,6 @@ public class Game {
         cardList.add(new Card("Test4",4,5,7,2,1));
         cardList.add(new Card("Test5",1,7,3,8,3));
 
-        Scanner sc = new Scanner(System.in);
 
         // First part of Game : Enter Name, Add Ai players
         System.out.println("-------Game Start-------");
@@ -34,7 +34,9 @@ public class Game {
         System.out.println("Game Start! You are player 1 and your name is: " + p1.getName() + ". Try to defeat " + num + " AI players!");
 
         // Second part of Game: Show result, draw cards
-        showCard();
+        drawCard();
+        chooseProperty();
+
 
 
     }
@@ -59,11 +61,28 @@ public class Game {
     }
 
 
-    private void showCard(){
+    private void drawCard(){
         System.out.println(p1.getName() + ": " + p1.getDeck().peekAtTopCard().getName());
         for (int i = 0; i < num ; i++){
             System.out.println(players.get(i).getName() + ": " + players.get(i).getDeck().peekAtTopCard().getName());
         }
+    }
+
+    private void chooseProperty() {
+        System.out.println("Choose your property: (1 - 5)");
+        Integer i = sc.nextInt();
+        while (true) {
+            if (i >= 1 && i <= 5){
+                System.out.println("Test ok!");
+                break;
+            }
+            else{
+                System.out.println("Enter error! Please re-enter: ");
+                i = sc.nextInt();
+            }
+        }
+        System.out.println("test!");
+
     }
 
 }
