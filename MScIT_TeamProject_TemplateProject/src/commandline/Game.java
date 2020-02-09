@@ -7,9 +7,13 @@ public class Game {
 
     private ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Card> cardList = new ArrayList<Card>();
+    private int num;
+    private Player p1;
 
 
     public void play(){
+
+        // Add cards to card list
         cardList.add(new Card("350r",1,9,2,3,0));
         cardList.add(new Card("Test2",1,2,3,4,5));
         cardList.add(new Card("Test3",1,3,5,1,2));
@@ -18,19 +22,21 @@ public class Game {
 
         Scanner sc = new Scanner(System.in);
 
+        // First part of Game : Enter Name, Add Ai players
         System.out.println("-------Game Start-------");
         System.out.println("Enter your name:");
         String str = sc.nextLine();
-        Player p1 = new Player(str);
+        this.p1 = new Player(str);
         createDeck(p1);
         System.out.println("Enter number of AI players:");
-        int num = sc.nextInt();
+        this.num = sc.nextInt();
         addAI(num);
         System.out.println("Game Start! You are player 1 and your name is: " + p1.getName() + ". Try to defeat " + num + " AI players!");
-        System.out.println(p1.getDeck().peekAtTopCard().getName());
-        System.out.println(players.get(0).getDeck().peekAtTopCard().getName());
-        System.out.println(players.get(1).getDeck().peekAtTopCard().getName());
-        System.out.println(players.get(2).getDeck().peekAtTopCard().getName());
+
+        // Second part of Game: Show result, draw cards
+        showCard();
+
+
     }
 
 
@@ -49,6 +55,14 @@ public class Game {
         for (int i = 0; i < cardList.size() ; i++){
             p.addCard(cardList.get(i));
             p.getDeck().shuffle();
+        }
+    }
+
+
+    private void showCard(){
+        System.out.println(p1.getName() + ": " + p1.getDeck().peekAtTopCard().getName());
+        for (int i = 0; i < num ; i++){
+            System.out.println(players.get(i).getName() + ": " + players.get(i).getDeck().peekAtTopCard().getName());
         }
     }
 
