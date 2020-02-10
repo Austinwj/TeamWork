@@ -3,16 +3,18 @@ package commandline;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Game {
 
     private ArrayList<Player> players = new ArrayList<Player>();
     private Stack<Card> cardStack = new Stack<Card>();
+    private Stack<Card> commonPile = new Stack<Card>();
     private int num;
     private int round = 1;
-    //private Player p1;
+    private Player p;
+    private Player p1;
+    private ArrayList<Player> removedPlayer = new ArrayList<Player>();
     Scanner sc = new Scanner(System.in);
 
 
@@ -28,7 +30,8 @@ public class Game {
         // Create Human Player
         System.out.println("Enter your name:");
         String str = sc.nextLine();
-        players.add(new Player(str));
+        p1 = new Player(str);
+        players.add(p1);
 
         // Create AI numbers (1-4)
         addAI();
@@ -38,8 +41,29 @@ public class Game {
         System.out.println("Game Start! You are player 1 and your name is: " + players.get(0).getName() + ". Try to defeat " + num + " AI players!");
 
         // Second part of Game: Show result, draw cards
-        drawCard();
-        //chooseProperty();
+        while (true) {
+
+            for (int i = 0 ; i < players.size() ; i ++){
+                if (players.get(i).getDeck().size() == 0){
+                    System.out.println(players.get(i).getName() + " Lose!");
+                    removedPlayer.add(players.get(i));
+                }
+            }
+
+            for (int j = 0; j < removedPlayer.size(); j++) {
+                players.remove(removedPlayer.get(j));
+            }
+
+
+            if (players.size() == 1){
+                System.out.println(players.get(0).getName() + " Win!");
+                break;
+            }
+
+            drawCard();
+
+        }
+
 
         // --------Test-------
         /*System.out.println(cardStack.size());
@@ -72,7 +96,7 @@ public class Game {
     // Add AI players, depend on num input
     private void addAI(){
         System.out.println("Enter number of AI players: (Min 1, Max 4)");
-        num = sc.nextInt();
+        num = sc.nextInt(); sc.nextLine();
         while (true) {
             if (num >= 1 && num <= 4){
                 for (int i = 0; i < num ; i++){
@@ -112,23 +136,40 @@ public class Game {
 
 
 
+    // Print Round info and drew card
     private void drawCard() {
-        while (true) {
-            System.out.println("Round " + round);
-            System.out.println("Round " + round + ": Player have drew their cards!");
-            System.out.println("You drew: " + "'" + players.get(0).getDeck().peek().getName() + "'");
-            for (int i = 0; i < 5 ; i++){
-                System.out.println("\t" + (i+1) + " >" + " " + players.get(0).getDeck().peek().properties[i] + ": " + players.get(0).getDeck().peek().getValues(i));
-            }
-            //System.out.println("\t" + "1 >" + " " + "Size: " + players.get(0).getDeck().peek().getSize());
-            //System.out.println("\t" + "2 >" + " " + "Speed: " + players.get(0).getDeck().peek().getSpeed());
-            //System.out.println("\t" + "3 >" + " " + "Range: " + players.get(0).getDeck().peek().getRange());
-            //System.out.println("\t" + "4 >" + " " + "Firepower: " + players.get(0).getDeck().peek().getFirepower());
-            //System.out.println("\t" + "5 >" + " " + "Cargo: " + players.get(0).getDeck().peek().getCargo());
-            System.out.println("There are " + (players.get(0).getDeck().size() - 1 ) + " cards left in your deck!");
+        Random r = new Random();
+        int rp = 0;
+        if (round == 1){
+            rp = r.nextInt(players.size());
+            p = players.get(rp);
+        }
 
-            System.out.print("Choose your property: (1 - 5) ");
-            int i = sc.nextInt();
+        System.out.println();
+        System.out.println("Round " + round);
+        System.out.println("Round " + round + ": Player have drawn their cards!");
+
+        if (!p1.getDeck().empty()){
+            System.out.println("You drew: " + "'" + p1.getDeck().peek().getName() + "'");
+
+            for (int i = 0; i < 5 ; i++){
+                String property = p1.getDeck().peek().properties[i];
+                int value = p1.getDeck().peek().getValues(i);
+                System.out.println("\t" + (i+1) + " >" + " " + property + ": " + value);
+            }
+
+            System.out.println("There are " + (p1.getDeck().size() - 1 ) + " cards left in your deck!");
+        }
+        chooseProperty();
+    }
+
+    // Choose property
+    private void chooseProperty(){
+
+        // Human player choose property
+        if (p == p1){
+            System.out.print("Now it is your turn, Choose your property: (1 - 5) ");
+            int i = sc.nextInt(); sc.nextLine();
             while (true) {
                 if (i >= 1 && i <= 5){
                     checkWin(i-1);
@@ -139,15 +180,40 @@ public class Game {
                     i = sc.nextInt();
                 }
             }
-
-            if (players.get(0).getDeck().size() == 0){
-                System.out.println("You Lose!");
-                break;
-            }
-
         }
 
+        // AI player choose property
+        else{
+            ArrayList<Integer> option = new ArrayList<Integer>();
+            ArrayList<Integer> randChoose = new ArrayList<Integer>();
+            Random r = new Random();
+
+            System.out.println("Now turn is " + p.getName());
+            for (int k = 0; k < 5; k++) {
+                option.add(p.getDeck().peek().getValues(k));
+            }
+            int max = Collections.max(option);
+            int m = 0;
+            for (int j = 0; j < option.size(); j++) {
+                if (option.get(j) == max){
+                    m++;
+                    randChoose.add(j);
+                }
+            }
+
+            int choose = option.indexOf(Collections.max(option));
+            if (m == 1){
+                checkWin(choose);
+            }
+            else{
+                checkWin(randChoose.get(r.nextInt(randChoose.size())));
+            }
+            System.out.println("Press Enter to next round!");
+            sc.nextLine();
+        }
     }
+
+
 
     // Check biggest property
     private void checkWin(int i){
@@ -162,18 +228,36 @@ public class Game {
                 m++;
             }
         }
+
+        int win = check.indexOf(Collections.max(check));
+        // Only have one big property
         if (m == 1){
-            int win = check.indexOf(Collections.max(check));
             System.out.println("Round " + round + ": " + players.get(win).getName() + " Win!");
+            int cp = commonPile.size();
+            for (int n = 0 ; n < cp ; n++){
+                players.get(win).getDeck().add(0, commonPile.pop());
+            }
+            for (int q = 0; q < players.size(); q++) {
+                players.get(win).getDeck().add(0, players.get(q).getDeck().peek());
+            }
+
             showWinCard(players.get(win).getDeck().peek(),i);
+            p = players.get(win);
         }
+        // Have two+ same property
         else{
-            System.out.println("Round " + round + ": drew!");
+            // Add into common pile
+            for (int k = 0; k < players.size(); k++) {
+                commonPile.add(players.get(k).getDeck().peek());
+                Collections.shuffle(commonPile);
+            }
+            System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
+            showWinCard(players.get(win).getDeck().peek(),i);
         }
 
         // Remove cards from this round
         for (int k = 0; k < players.size(); k++) {
-            players.get(k).getDeck().pop().getValues(i);
+            players.get(k).getDeck().pop();
         }
         round++;
     }
