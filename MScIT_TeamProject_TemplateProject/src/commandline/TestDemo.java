@@ -1,5 +1,8 @@
 package commandline;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class TestDemo {
 	public static void main(String[] args) {
 		Card c1 = new Card("350r",1,9,2,3,0);
@@ -24,6 +27,16 @@ public class TestDemo {
 		}
 		System.out.println(" ");
 		System.out.println(game.cardList.size());*/
+
+		ArrayList<Integer> test = new ArrayList<>();
+		test.add(1);
+		test.add(4);
+		test.add(5);
+		test.add(7);
+		test.add(7);
+		test.add(2);
+		System.out.println(Collections.max(test));
+
 
 	}
 }
