@@ -8,22 +8,22 @@ public class TestDemo {
 		Card c4 = new Card("Test4",4,5,7,2,1);
 		Card c5 = new Card("Test5",1,7,3,8,3);
 		System.out.println(c1.getName());
-		c1.getProperty(0);
+		//c1.getProperty(0);
 		Player p1 = new Player("Test");
-		p1.addCard(c1);
-		p1.addCard(c2);
-		System.out.println(p1.getDeck().peekAtTopCard().getName());
-		System.out.println(p1.getDeck().getSizeofDeck());
+		//p1.addCard(c1);
+		//p1.addCard(c2);
+		//System.out.println(p1.getDeck().peekAtTopCard().getName());
+		//System.out.println(p1.getDeck().getSizeofDeck());
 		Game game = new Game();
 		//game.play();
 
-		game.addCards();
+		/*game.addCards();
 		for (int i = 0; i < game.cardList.size(); i++) {
 			System.out.print(game.cardList.get(i).getName());
 			System.out.print(" ");
 		}
 		System.out.println(" ");
-		System.out.println(game.cardList.size());
+		System.out.println(game.cardList.size());*/
 
 	}
 }

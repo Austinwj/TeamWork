@@ -16,12 +16,28 @@ public class Card {
 		this.values[4] = cargo;
 	}
 
-	void getProperty(int i) {
-		System.out.println(properties[i] + ": " + values[i]);
-	}
-	
-	String getName() {
+	public String getName() {
 		return name;
+	}
+
+	public int getSize(){
+		return this.values[0];
+	}
+
+	public int getSpeed(){
+		return this.values[1];
+	}
+
+	public int getRange(){
+		return this.values[2];
+	}
+
+	public int getFirepower(){
+		return this.values[3];
+	}
+
+	public int getCargo(){
+		return this.values[4];
 	}
 
 }

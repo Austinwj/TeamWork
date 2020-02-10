@@ -4,8 +4,7 @@ import java.util.*;
 
 public class Player {
 
-    private Stack<Card> cards = new Stack<>();
-    private Deck deck = new Deck(cards);
+    private Stack<Card> deck = new Stack<>();
     private String name;
 	private int i;
 
@@ -22,9 +21,9 @@ public class Player {
 
 
     // Add a card to the top of stack
-    public void addCard(Card c){
+    /*public void addCard(Card c){
         cards.push(c);
-    }
+    }*/
 
 
 /*    // Return a Card from top of stack
@@ -35,7 +34,7 @@ public class Player {
 
 
     // Return the deck (use method from deck class)
-    public Deck getDeck(){
+    public Stack<Card> getDeck(){
         return deck;
     }
 
