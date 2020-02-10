@@ -3,9 +3,8 @@ package commandline;
 public class Card {
 	
 	private String name;
-	private String[] properties = {"Size", "Speed", "Range" , "Firepower", "Cargo"};
 	private int[] values = new int[5];
-	private int size, speed, range, firepower, cargo;
+	public String[] properties = {"Size", "Speed", "Range" , "Firepower", "Cargo"};
 	
 	public Card(String name, int size, int speed, int range, int firepower, int cargo){
 		this.name = name;
@@ -18,6 +17,10 @@ public class Card {
 
 	public String getName() {
 		return name;
+	}
+
+	public int getValues(int i) {
+		return values[i];
 	}
 
 	public int getSize(){

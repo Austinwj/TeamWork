@@ -26,24 +26,4 @@ public class Player {
         return deck;
     }
 
-
-    //
-    public CategoryType chooseRandomCategory() {
-        List<CategoryType> categoryTypes = Arrays.asList(CategoryType.values());
-        Random randomCategory = new Random();
-        return categoryTypes.get(randomCategory.nextInt(categoryTypes.size()));
-    }
-
-
-    //
-    public CategoryType chooseCategory() {
-        List<CategoryType> categoryTypes = Arrays.asList(CategoryType.values());
-        return null;
-    }
-
-
-    //
-    public Card addToBottomOfDeck() {
-        return null;
-    }
 }
