@@ -1,12 +1,15 @@
 package commandline;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
 
     private ArrayList<Player> players = new ArrayList<Player>();
-    private ArrayList<Card> cardList = new ArrayList<Card>();
+    public ArrayList<Card> cardList = new ArrayList<Card>();
     private int num;
     private Player p1;
     Scanner sc = new Scanner(System.in);
@@ -15,11 +18,7 @@ public class Game {
     public void play(){
 
         // Add cards to card list
-        cardList.add(new Card("350r",1,9,2,3,0));
-        cardList.add(new Card("Test2",1,2,3,4,5));
-        cardList.add(new Card("Test3",1,3,5,1,2));
-        cardList.add(new Card("Test4",4,5,7,2,1));
-        cardList.add(new Card("Test5",1,7,3,8,3));
+        addCards();
 
 
         // First part of Game : Enter Name, Add Ai players
@@ -82,6 +81,40 @@ public class Game {
             }
         }
         System.out.println("test!");
+
+    }
+
+
+    // Get card details from StarCitizenDeck.txt and add to cardList
+    public void addCards() {
+        FileReader fr = null;
+        try {
+            fr = new FileReader("StarCitizenDeck.txt");
+            Scanner s = new Scanner(fr);
+            String line = s.nextLine(); // Ignore first line
+            while (s.hasNextLine()) {
+                // Begin with the second line
+                line = s.nextLine();
+                String[] tokens = line.split(" ");
+                String description = tokens[0];
+                int size = Integer.parseInt(tokens[1]);
+                int speed = Integer.parseInt(tokens[2]);
+                int range = Integer.parseInt(tokens[3]);
+                int firepower = Integer.parseInt(tokens[4]);
+                int cargo = Integer.parseInt(tokens[5]);
+                cardList.add(new Card(description, size, speed, range, firepower, cargo));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 

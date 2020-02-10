@@ -15,7 +15,15 @@ public class TestDemo {
 		System.out.println(p1.getDeck().peekAtTopCard().getName());
 		System.out.println(p1.getDeck().getSizeofDeck());
 		Game game = new Game();
-		game.play();
+		//game.play();
+
+		game.addCards();
+		for (int i = 0; i < game.cardList.size(); i++) {
+			System.out.print(game.cardList.get(i).getName());
+			System.out.print(" ");
+		}
+		System.out.println(" ");
+		System.out.println(game.cardList.size());
 
 	}
 }
