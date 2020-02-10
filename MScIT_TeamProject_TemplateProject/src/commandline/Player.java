@@ -20,30 +20,11 @@ public class Player {
     }
 
 
-    // Add a card to the top of stack
-    /*public void addCard(Card c){
-        cards.push(c);
-    }*/
 
-
-/*    // Return a Card from top of stack
-    public Card peekAtTopCard(){
-       //return deck.getCards().peek();
-        return cards.peek();
-    }*/
-
-
-    // Return the deck (use method from deck class)
+    // Return the deck
     public Stack<Card> getDeck(){
         return deck;
     }
-
-
-/*    // Remove the card from the top of stack
-    public Card removeCardFromDeck() {
-       //return deck.getCards().pop();
-        return cards.pop();
-    }*/
 
 
     //
