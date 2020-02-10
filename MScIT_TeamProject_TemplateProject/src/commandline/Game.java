@@ -44,8 +44,23 @@ public class Game {
         System.out.println(players.get(0).getDeck().size());
         System.out.println(players.get(1).getDeck().size());
         System.out.println(players.get(2).getDeck().size());
-        //System.out.println(players.get(3).getDeck().size());
-        //System.out.println(players.get(4).getDeck().size());
+
+        System.out.println("----------");
+        for (int m = 0; m < players.get(0).getDeck().size() ; m++) {
+            System.out.print(players.get(0).getDeck().get(m).getName());
+            System.out.print(" ");
+        }
+        System.out.println("----------");
+
+        for (int m = 0; m < players.get(1).getDeck().size() ; m++) {
+            System.out.print(players.get(1).getDeck().get(m).getName());
+            System.out.print(" ");
+        }
+        System.out.println("----------");
+        for (int m = 0; m < players.get(2).getDeck().size() ; m++) {
+            System.out.print(players.get(2).getDeck().get(m).getName());
+            System.out.print(" ");
+        }
 
 
 
