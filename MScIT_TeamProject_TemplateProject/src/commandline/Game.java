@@ -139,11 +139,11 @@ public class Game {
                     i = sc.nextInt();
                 }
             }
-            System.out.println(cardStack.size());
-            System.out.println(players.get(0).getDeck().size());
-            System.out.println(players.get(1).getDeck().size());
-            System.out.println(players.get(2).getDeck().size());
-            break;
+
+            if (players.get(0).getDeck().size() == 0){
+                System.out.println("You Lose!");
+                break;
+            }
 
         }
 
