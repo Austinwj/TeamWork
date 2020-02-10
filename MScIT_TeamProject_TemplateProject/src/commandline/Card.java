@@ -4,6 +4,7 @@ public class Card {
 	
 	private String name;
 	private int[] values = new int[5];
+	public String[] properties = {"Size", "Speed", "Range" , "Firepower", "Cargo"};
 	
 	public Card(String name, int size, int speed, int range, int firepower, int cargo){
 		this.name = name;

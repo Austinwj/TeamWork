@@ -3,6 +3,7 @@ package commandline;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Game {
@@ -116,17 +117,21 @@ public class Game {
             System.out.println("Round " + round);
             System.out.println("Round " + round + ": Player have drew their cards!");
             System.out.println("You drew: " + "'" + players.get(0).getDeck().peek().getName() + "'");
-            System.out.println("\t" + "1 >" + " " + "Size: " + players.get(0).getDeck().peek().getSize());
-            System.out.println("\t" + "2 >" + " " + "Speed: " + players.get(0).getDeck().peek().getSpeed());
-            System.out.println("\t" + "3 >" + " " + "Range: " + players.get(0).getDeck().peek().getRange());
-            System.out.println("\t" + "4 >" + " " + "Firepower: " + players.get(0).getDeck().peek().getFirepower());
-            System.out.println("\t" + "5 >" + " " + "Cargo: " + players.get(0).getDeck().peek().getCargo());
+            for (int i = 0; i < 5 ; i++){
+                System.out.println("\t" + (i+1) + " >" + " " + players.get(0).getDeck().peek().properties[i] + ": " + players.get(0).getDeck().peek().getValues(i));
+            }
+            //System.out.println("\t" + "1 >" + " " + "Size: " + players.get(0).getDeck().peek().getSize());
+            //System.out.println("\t" + "2 >" + " " + "Speed: " + players.get(0).getDeck().peek().getSpeed());
+            //System.out.println("\t" + "3 >" + " " + "Range: " + players.get(0).getDeck().peek().getRange());
+            //System.out.println("\t" + "4 >" + " " + "Firepower: " + players.get(0).getDeck().peek().getFirepower());
+            //System.out.println("\t" + "5 >" + " " + "Cargo: " + players.get(0).getDeck().peek().getCargo());
             System.out.println("There are " + (players.get(0).getDeck().size() - 1 ) + " cards left in your deck!");
+
             System.out.print("Choose your property: (1 - 5) ");
             int i = sc.nextInt();
             while (true) {
                 if (i >= 1 && i <= 5){
-                    checkWin(i);
+                    checkWin(i-1);
                     break;
                 }
                 else{
@@ -134,6 +139,10 @@ public class Game {
                     i = sc.nextInt();
                 }
             }
+            System.out.println(cardStack.size());
+            System.out.println(players.get(0).getDeck().size());
+            System.out.println(players.get(1).getDeck().size());
+            System.out.println(players.get(2).getDeck().size());
             break;
 
         }
@@ -144,7 +153,7 @@ public class Game {
     private void checkWin(int i){
         ArrayList<Integer> check = new ArrayList<Integer>();
         for (int k = 0; k < players.size(); k++) {
-            check.add(players.get(k).getDeck().pop().getValues(i));
+            check.add(players.get(k).getDeck().peek().getValues(i));
         }
         int max = Collections.max(check);
         int m = 0;
@@ -156,9 +165,28 @@ public class Game {
         if (m == 1){
             int win = check.indexOf(Collections.max(check));
             System.out.println("Round " + round + ": " + players.get(win).getName() + " Win!");
+            showWinCard(players.get(win).getDeck().peek(),i);
         }
         else{
             System.out.println("Round " + round + ": drew!");
+        }
+
+        // Remove cards from this round
+        for (int k = 0; k < players.size(); k++) {
+            players.get(k).getDeck().pop().getValues(i);
+        }
+        round++;
+    }
+
+    private void showWinCard(Card c, int i){
+        System.out.println("The winning card was '" + c.getName() + "':");
+        for (int j = 0; j < 5 ; j++){
+            if (i == j){
+                System.out.println("\t" + ">" + " " + c.properties[j] + ": " + c.getValues(j) + " <--");
+            }
+            else{
+                System.out.println("\t" + ">" + " " + c.properties[j] + ": " + c.getValues(j));
+            }
         }
     }
 
