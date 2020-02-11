@@ -8,10 +8,10 @@ import java.util.*;
 public class Game {
 
     private ArrayList<Player> players = new ArrayList<Player>();
-    private Stack<Card> cardStack = new Stack<Card>();
     private Stack<Card> commonPile = new Stack<Card>();
     private int num;
     private int round = 1;
+    private Deck deck;
     private Player p;
     private Player p1;
     private ArrayList<Player> removedPlayer = new ArrayList<Player>();
@@ -21,7 +21,8 @@ public class Game {
     public void play(){
 
         // Add cards to card list
-        addCards();
+        deck = new Deck();
+        deck.addCards();
 
 
         // First part of Game : Enter Name, Add Ai players
@@ -66,7 +67,7 @@ public class Game {
 
 
         // --------Test-------
-        /*System.out.println(cardStack.size());
+        /*System.out.println(deck.getStack().size());
         System.out.println(players.get(0).getDeck().size());
         System.out.println(players.get(1).getDeck().size());
         System.out.println(players.get(2).getDeck().size());
@@ -117,18 +118,18 @@ public class Game {
     private void createDeck() {
         Random r = new Random();
         while (true) {
-            Collections.shuffle(cardStack);
-            if (cardStack.empty()) {
+            Collections.shuffle(deck.getStack());
+            if (deck.getStack().empty()) {
                 break;
             }
-            else if (cardStack.size() == 1){
+            else if (deck.getStack().size() == 1){
                     int j = r.nextInt(players.size());
-                    players.get(j).getDeck().push(cardStack.pop());
+                    players.get(j).getDeck().push(deck.getStack().pop());
                     break;
             }
             else {
                 for (int k = 0; k < players.size(); k++) {
-                    players.get(k).getDeck().push(cardStack.pop());
+                    players.get(k).getDeck().push(deck.getStack().pop());
                 }
             }
         }
@@ -162,6 +163,7 @@ public class Game {
         }
         chooseProperty();
     }
+
 
     // Choose property
     private void chooseProperty(){
@@ -214,7 +216,6 @@ public class Game {
     }
 
 
-
     // Check biggest property
     private void checkWin(int i){
         ArrayList<Integer> check = new ArrayList<Integer>();
@@ -262,6 +263,8 @@ public class Game {
         round++;
     }
 
+
+    // Print win card's property
     private void showWinCard(Card c, int i){
         System.out.println("The winning card was '" + c.getName() + "':");
         for (int j = 0; j < 5 ; j++){
@@ -274,40 +277,5 @@ public class Game {
         }
     }
 
-
-
-    // Get card details from StarCitizenDeck.txt and add to cardList
-    public void addCards() {
-        FileReader fr = null;
-        try {
-            fr = new FileReader("StarCitizenDeck.txt");
-            Scanner s = new Scanner(fr);
-            String line = s.nextLine(); // Ignore first line
-            while (s.hasNextLine()) {
-                // Begin with the second line
-                line = s.nextLine();
-                String[] tokens = line.split(" ");
-                String description = tokens[0];
-                int size = Integer.parseInt(tokens[1]);
-                int speed = Integer.parseInt(tokens[2]);
-                int range = Integer.parseInt(tokens[3]);
-                int firepower = Integer.parseInt(tokens[4]);
-                int cargo = Integer.parseInt(tokens[5]);
-                cardStack.push(new Card(description, size, speed, range, firepower, cargo));
-                Collections.shuffle(cardStack);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (fr != null) {
-                try {
-                    fr.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
 
 }
