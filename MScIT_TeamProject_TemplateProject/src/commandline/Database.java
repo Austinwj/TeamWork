@@ -155,7 +155,7 @@ public class Database {
 		try {
 			Connection c = getConnection();
 			PreparedStatement create = c.prepareStatement(
-					"INSERT INTO GameRecord(ROUND,DRAWS,ROUNDS,WINNER) "
+					"INSERT INTO GameRecord(GAME,DRAWS,ROUND,WINNER) "
 					+ "values('"+GAME+"','"+DRAWS+"','"+ROUND+"','"+WINNER+"')");
 
 			create.executeUpdate();
