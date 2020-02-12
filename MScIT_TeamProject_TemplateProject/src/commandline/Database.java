@@ -17,7 +17,7 @@ public class Database {
 	
 	public Database(){
 
-		this.logLink = "jdbc:postgresql://52.24.215.108:5432/Atlus Tech";
+		this.logLink = "jdbc:postgresql://52.24.215.108:5432/AtlusTech";
 		this.user = "AtlusTech";
 		this.password = "AtlusTech";
 		
