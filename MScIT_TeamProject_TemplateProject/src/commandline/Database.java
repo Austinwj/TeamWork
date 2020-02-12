@@ -54,10 +54,10 @@ public class Database {
 			Connection c = getConnection();
 			stmt = c.createStatement();
 			String SQL = "CREATE TABLE DATA " +
-                    "(round INT PRIMARY KEY     NOT NULL," +
+                    "(game INT PRIMARY KEY     NOT NULL," +
                     " draws           REAL    NOT NULL, " +
-                    " rounds          INT     NOT NULL, " +
-                    " winner          INT		NOT NULL); ";
+                    " round          INT     NOT NULL, " +
+                    " winner          INT	NOT NULL); ";
 			stmt.executeUpdate(SQL);
 			stmt.close();
 		}catch(Exception e) {
