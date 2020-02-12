@@ -7,18 +7,32 @@ import java.util.*;
 
 public class Game {
 
+    // Game statistics
+    private int numGame;
+    private int aiWin;
+    private int humanWin;
+    private int numDraw;
+    private int avgDraw;
+    private int largestRound;
+    private ArrayList<Integer> roundCount = new ArrayList<Integer>();
+
     private ArrayList<Player> players = new ArrayList<Player>();
     private Stack<Card> commonPile = new Stack<Card>();
-    private int num;
+    private int aiNum;
     private int round = 1;
     private Deck deck;
     private Player p;
+    private String p1Name;
     private Player p1;
     private ArrayList<Player> removedPlayer = new ArrayList<Player>();
     Scanner sc = new Scanner(System.in);
 
 
     public void play(){
+
+        // Clear some array for new game
+        players.clear();
+        commonPile.clear();
 
         // Add cards to card list
         deck = new Deck();
@@ -29,9 +43,11 @@ public class Game {
         System.out.println("-------Game Start-------");
 
         // Create Human Player
-        System.out.println("Enter your name:");
-        String str = sc.nextLine();
-        p1 = new Player(str);
+        if (numGame == 0){
+            System.out.println("Enter your name:");
+            p1Name = sc.nextLine();
+        }
+        p1 = new Player(p1Name);
         players.add(p1);
 
         // Create AI numbers (1-4)
@@ -39,7 +55,8 @@ public class Game {
 
         // Create Decks to players
         createDeck();
-        System.out.println("Game Start! You are player 1 and your name is: " + players.get(0).getName() + ". Try to defeat " + num + " AI players!");
+
+        System.out.println("Game Start! You are player 1 and your name is: " + players.get(0).getName() + ". Try to defeat " + aiNum + " AI players!");
 
         // Second part of Game: Show result, draw cards
         while (true) {
@@ -58,6 +75,18 @@ public class Game {
 
             if (players.size() == 1){
                 System.out.println(players.get(0).getName() + " Win!");
+
+                if (players.get(0).getName() == p1.getName()){
+                    humanWin++;
+                }
+                else {
+                    aiWin++;
+                }
+
+                // Add number of games and Reset round
+                numGame++;
+                roundCount.add(round);
+                round = 1;
                 break;
             }
 
@@ -67,10 +96,11 @@ public class Game {
 
 
         // --------Test-------
-        /*System.out.println(deck.getStack().size());
-        System.out.println(players.get(0).getDeck().size());
-        System.out.println(players.get(1).getDeck().size());
-        System.out.println(players.get(2).getDeck().size());
+        /*System.out.println(players.size());
+        System.out.println(deck.getStack().size());
+        for (Player player : players) {
+            System.out.println(player.getDeck().size());
+        }
 
         System.out.println("----------");
         for (int m = 0; m < players.get(0).getDeck().size() ; m++) {
@@ -97,10 +127,10 @@ public class Game {
     // Add AI players, depend on num input
     private void addAI(){
         System.out.println("Enter number of AI players: (Min 1, Max 4)");
-        num = sc.nextInt(); sc.nextLine();
+        aiNum = sc.nextInt(); sc.nextLine();
         while (true) {
-            if (num >= 1 && num <= 4){
-                for (int i = 0; i < num ; i++){
+            if (aiNum >= 1 && aiNum <= 4){
+                for (int i = 0; i < aiNum ; i++){
                     String str = "AI Player " + (i + 1);
                     players.add(new Player(str));
                 }
@@ -108,7 +138,7 @@ public class Game {
             }
             else{
                 System.out.println("Enter error! Please re-enter: ");
-                num = sc.nextInt();
+                aiNum = sc.nextInt();
             }
         }
     }
@@ -117,21 +147,43 @@ public class Game {
     // Create deck for player
     private void createDeck() {
         Random r = new Random();
+        int leftCards = deck.getStack().size() % (aiNum+1);
         while (true) {
             Collections.shuffle(deck.getStack());
-            if (deck.getStack().empty()) {
-                break;
-            }
-            else if (deck.getStack().size() == 1){
-                    int j = r.nextInt(players.size());
-                    players.get(j).getDeck().push(deck.getStack().pop());
-                    break;
-            }
-            else {
-                for (int k = 0; k < players.size(); k++) {
-                    players.get(k).getDeck().push(deck.getStack().pop());
+            if (leftCards == 0){
+                for (Player player : players) {
+                    Collections.shuffle(deck.getStack());
+                    player.getDeck().push(deck.getStack().pop());
+                    if (deck.getStack().empty()) {
+                        return;
+                    }
                 }
             }
+            else{ // If card size mod player number not zero
+                for (Player player : players) {
+                    Collections.shuffle(deck.getStack());
+                    player.getDeck().push(deck.getStack().pop());
+
+                    // This loop is suitable for more than 4 players
+                    if (deck.getStack().size() == leftCards) {
+                        ArrayList<Integer> randPlayer = new ArrayList<Integer>();
+                        for (int i = 0; i < players.size(); i++){
+                            randPlayer.add(i);
+                        }
+                        for (int i = 0; i < leftCards; i++){
+                            int j = r.nextInt(randPlayer.size());
+                            players.get(randPlayer.get(j)).getDeck().push(deck.getStack().pop());
+                            randPlayer.remove(j);
+                            if (deck.getStack().empty()) {
+                                return;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
         }
     }
 
@@ -210,8 +262,8 @@ public class Game {
             else{
                 checkWin(randChoose.get(r.nextInt(randChoose.size())));
             }
-            System.out.println("Press Enter to next round!");
-            sc.nextLine();
+            //System.out.println("Press Enter to next round!");
+            //sc.nextLine();
         }
     }
 
@@ -254,6 +306,7 @@ public class Game {
             }
             System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
             showWinCard(players.get(win).getDeck().peek(),i);
+            numDraw++;
         }
 
         // Remove cards from this round
@@ -277,5 +330,33 @@ public class Game {
         }
     }
 
+    public int getNumGame() {
+        return numGame;
+    }
 
+    public int getAiWin() {
+        return aiWin;
+    }
+
+    public int getHumanWin() {
+        return humanWin;
+    }
+
+    public int getAvgDraw() {
+        if (numGame == 0){
+            avgDraw = 0;
+            return avgDraw;
+        }
+        avgDraw = Math.round(numDraw / numGame);
+        return avgDraw;
+    }
+
+    public int getLargestRound() {
+        if (numGame == 0){
+            largestRound = 0;
+            return largestRound;
+        }
+        largestRound = Collections.max(roundCount);
+        return largestRound;
+    }
 }
