@@ -151,12 +151,12 @@ public class Database {
 		
 	}
 	
-	public void uploadGameRecord(int ROUND, int DRAWS, int ROUNDS, int WINNER) {
+	public void uploadGameRecord(int GAME, int DRAWS, int ROUND, int WINNER) {
 		try {
 			Connection c = getConnection();
 			PreparedStatement create = c.prepareStatement(
 					"INSERT INTO GameRecord(ROUND,DRAWS,ROUNDS,WINNER) "
-					+ "values('"+ROUND+"','"+DRAWS+"','"+ROUNDS+"','"+WINNER+"')");
+					+ "values('"+GAME+"','"+DRAWS+"','"+ROUND+"','"+WINNER+"')");
 
 			create.executeUpdate();
 		} catch (Exception e) {
