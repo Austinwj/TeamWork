@@ -11,6 +11,7 @@ public class Game {
     private int numGame;
     private int aiWin;
     private int humanWin;
+    private int winner; // = 0 means Human win, = 1 means Ai win
     private int numDraw;
     private int avgDraw;
     private int largestRound;
@@ -78,9 +79,11 @@ public class Game {
 
                 if (players.get(0).getName() == p1.getName()){
                     humanWin++;
+                    winner = 0;
                 }
                 else {
                     aiWin++;
+                    winner = 1;
                 }
 
                 // Add number of games and Reset round
@@ -340,6 +343,10 @@ public class Game {
 
     public int getHumanWin() {
         return humanWin;
+    }
+
+    public int getWinner() {
+        return winner;
     }
 
     public int getAvgDraw() {

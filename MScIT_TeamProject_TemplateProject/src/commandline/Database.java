@@ -1,3 +1,5 @@
+package commandline;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -5,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Datebase {
+public class Database {
 	
 	public boolean status;
 	private String logLink, user, password; 
@@ -13,7 +15,7 @@ public class Datebase {
 	private ResultSet rs;
 	private Connection con = null;
 	
-	public Datebase(){
+	public Database(){
 
 		this.logLink = "jdbc:postgresql://52.24.215.108:5432/";
 		this.user = "AtlusTech";
