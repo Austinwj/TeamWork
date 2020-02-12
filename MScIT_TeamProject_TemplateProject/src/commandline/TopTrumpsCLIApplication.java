@@ -26,33 +26,45 @@ public class TopTrumpsCLIApplication {
 			// ----------------------------------------------------
 			// Add your game logic here based on the requirements
 			// ----------------------------------------------------
-			System.out.println("Do you want to see past results or play a game?");
-			System.out.println("1: Play Game");
-			System.out.println("2: Print Game Statistics");
-			System.out.println("3: Quit");
-			System.out.print("Enter the number for your selection: ");
-			Scanner sc = new Scanner(System.in);
-			Integer input = sc.nextInt();
+			Game game = new Game();
 
-			if (input == 1) {
-				Game game = new Game();
-				game.play();
+			while (true) {
+				System.out.println("Do you want to see past results or play a game?");
+				System.out.println("1: Play Game");
+				System.out.println("2: Print Game Statistics");
+				System.out.println("3: Quit");
+				System.out.print("Enter the number for your selection: ");
+				Scanner sc = new Scanner(System.in);
+				Integer input = sc.nextInt();
 
-			} /*else if (input == 2) {
-				Database db = new Database();
+				if (input == 1) {
+					game.play();
+					System.out.println("Ends!");
+
+				} else if (input == 2) {
+				/*Database db = new Database();
 				System.out.println(db.getGameStatistics());
 				db.closeConnection();
-				db = null;
-			}*/ else if (input == 3) {
-				System.out.println("Exit!");
-				userWantsToQuit = true;
-				System.exit(1);
+				db = null;*/
+
+					System.out.println("Number of games played: " + game.getNumGame());
+					System.out.println("Times that AI player won: " + game.getAiWin());
+					System.out.println("Times that Human player won: " + game.getHumanWin());
+					System.out.println("The average number of draws: " + game.getAvgDraw());
+					System.out.println("The largest number of rounds played in a single game : " + game.getLargestRound());
+					System.out.println("------------------");
+			} else if (input == 3) {
+					System.out.println("Exit!");
+					userWantsToQuit = true;
+					System.exit(1);
+				}
+				else {
+					System.out.println("Sorry, input not recognised, please try again...");
+				}
+
+				userWantsToQuit=true; // use this when the user wants to exit the game
 			}
-			else {
-				System.out.println("Sorry, input not recognised, please try again...");
-			}
-			
-			userWantsToQuit=true; // use this when the user wants to exit the game
+
 			
 		}
 
