@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SQLConn {
+public class Database {
 	
 	public boolean status;
 	private String logLink, user, password; 
@@ -15,7 +15,7 @@ public class SQLConn {
 	private ResultSet rs;
 	private Connection con = null;
 	
-	public SQLConn(){
+	public Database(){
 
 		this.logLink = "jdbc:postgresql://52.24.215.108:5432/";
 		this.user = "AtlusTech";
