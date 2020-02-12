@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Database {
+public class SQLConn {
 	
 	public boolean status;
 	private String logLink, user, password; 
@@ -15,7 +15,7 @@ public class Database {
 	private ResultSet rs;
 	private Connection con = null;
 	
-	public Database(){
+	public SQLConn(){
 
 		this.logLink = "jdbc:postgresql://52.24.215.108:5432/";
 		this.user = "AtlusTech";
@@ -38,7 +38,7 @@ public class Database {
 			e.printStackTrace();
 			status = false;
 		}
-		return null;
+		return con;
 	}
 	
 	public void closeConnection() {
@@ -156,7 +156,7 @@ public class Database {
 			Connection c = getConnection();
 			PreparedStatement create = c.prepareStatement(
 					"INSERT INTO GameRecord(ROUND,DRAWS,ROUNDS,WINNER) "
-					+ "values('"+round+"','"+draws+"','"+rounds+"','"+winner+"')");
+					+ "values('"+ROUND+"','"+DRAWS+"','"+ROUNDS+"','"+WINNER+"')");
 
 			create.executeUpdate();
 		} catch (Exception e) {
