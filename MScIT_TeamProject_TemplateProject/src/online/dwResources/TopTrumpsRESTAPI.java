@@ -1,8 +1,7 @@
 package online.dwResources;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import commandline.*;
 
 import online.configuration.TopTrumpsJSONConfiguration;
 
@@ -34,6 +35,18 @@ public class TopTrumpsRESTAPI {
 	/** A Jackson Object writer. It allows us to turn Java objects
 	 * into JSON strings easily. */
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private Stack<Card> commonPile = new Stack<Card>();
+	private int aiNum;
+	private int round = 1;
+	private Deck deck;
+	private Player p;
+	private String p1Name;
+	private Player p1;
+	private ArrayList<Player> removedPlayer = new ArrayList<Player>();
+
+
 	
 	/**
 	 * Contructor method for the REST API. This is called first. It provides
@@ -45,11 +58,82 @@ public class TopTrumpsRESTAPI {
 		// ----------------------------------------------------
 		// Add relevant initalization here
 		// ----------------------------------------------------
+
+		// Reset
+		reset();
 	}
 	
 	// ----------------------------------------------------
 	// Add relevant API methods here
 	// ----------------------------------------------------
+	@GET
+	@Path("/addPlayer")
+	public void addPlayer(@QueryParam("Number") int number) throws IOException {
+		p1 = new Player("Human Player");
+		players.add(p1);
+		this.aiNum = number;
+		for (int i = 0; i < aiNum ; i++){
+			String str = "AI Player " + (i + 1);
+			players.add(new Player(str));
+		}
+	}
+
+
+	// Reset
+	private void reset() {
+		// Clear some array for new game
+		players.clear();
+		commonPile.clear();
+
+		// Add cards to card list
+		deck = new Deck();
+		deck.addCards();
+	}
+
+
+	// Create deck for player
+	private void createDeck() {
+		Random r = new Random();
+		int leftCards = deck.getStack().size() % (aiNum+1);
+		while (true) {
+			Collections.shuffle(deck.getStack());
+			if (leftCards == 0){
+				for (Player player : players) {
+					Collections.shuffle(deck.getStack());
+					player.getDeck().push(deck.getStack().pop());
+					if (deck.getStack().empty()) {
+						return;
+					}
+				}
+			}
+			else{ // If card size mod player number not zero
+				for (Player player : players) {
+					Collections.shuffle(deck.getStack());
+					player.getDeck().push(deck.getStack().pop());
+
+					// This loop is suitable for more than 4 players
+					if (deck.getStack().size() == leftCards) {
+						ArrayList<Integer> randPlayer = new ArrayList<Integer>();
+						for (int i = 0; i < players.size(); i++){
+							randPlayer.add(i);
+						}
+						for (int i = 0; i < leftCards; i++){
+							int j = r.nextInt(randPlayer.size());
+							players.get(randPlayer.get(j)).getDeck().push(deck.getStack().pop());
+							randPlayer.remove(j);
+							if (deck.getStack().empty()) {
+								return;
+							}
+						}
+
+					}
+				}
+			}
+
+
+		}
+	}
+
 	
 	@GET
 	@Path("/helloJSONList")

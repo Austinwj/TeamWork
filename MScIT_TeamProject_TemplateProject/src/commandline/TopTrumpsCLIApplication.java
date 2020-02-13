@@ -27,7 +27,7 @@ public class TopTrumpsCLIApplication {
 			// Add your game logic here based on the requirements
 			// ----------------------------------------------------
 			Game game = new Game();
-			Database db = new Database();
+			//Database db = new Database();
 
 			while (true) {
 				System.out.println("Do you want to see past results or play a game?");
@@ -40,20 +40,21 @@ public class TopTrumpsCLIApplication {
 
 				if (input == 1) {
 					game.play();
-					db.uploadGameRecord(game.getNumGame(), game.getAvgDraw(), game.getLargestRound(), game.getWinner());
+					//db.createTable();
+					//db.uploadGameRecord(game.getNumGame(), game.getAvgDraw(), game.getLargestRound(), game.getWinner());
 					System.out.println("Ends!");
 
 				} else if (input == 2) {
 
-					db.showRecord();
-					db.closeConnection();
+					//db.showRecord();
+					//db.closeConnection();
 
-					/*System.out.println("Number of games played: " + game.getNumGame());
+					System.out.println("Number of games played: " + game.getNumGame());
 					System.out.println("Times that AI player won: " + game.getAiWin());
 					System.out.println("Times that Human player won: " + game.getHumanWin());
 					System.out.println("The average number of draws: " + game.getAvgDraw());
 					System.out.println("The largest number of rounds played in a single game : " + game.getLargestRound());
-					System.out.println("------------------");*/
+					System.out.println("------------------");
 
 			} else if (input == 3) {
 					System.out.println("Exit!");
