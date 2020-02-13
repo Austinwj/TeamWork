@@ -75,7 +75,7 @@ public class Database {
 			stmt.executeUpdate(SQL);
 			stmt.close();
 		}catch(Exception e) {
-			System.err.println("Something wrong in creating table");
+			System.err.println("Error to create table");
 			e.printStackTrace();
 			return;
 		}
@@ -142,7 +142,7 @@ public class Database {
 				avgDraws = rs.getInt("avgDraws");
 			}
 		}catch(Exception e) {
-			System.err.println("Something wrong in getting average number of draws");
+			System.err.println("Error to get average number of draws!");
 			e.printStackTrace();			
 		}
 		return avgDraws;
@@ -158,7 +158,7 @@ public class Database {
 			if(this.rs.next())
 				num = this.rs.getInt("LongestRuond");
 		} catch (SQLException e) {
-			System.err.println("Query is Failed!");
+			System.err.println("Error to get longest ruond!");
 			e.printStackTrace();
 		}
 		return num;
