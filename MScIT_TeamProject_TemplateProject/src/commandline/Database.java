@@ -14,7 +14,7 @@ public class Database {
 	private Statement stmt = null;
 	private ResultSet rs;
 	private Connection con = null;
-	
+	int winner;
 	public Database(){
 
 		this.logLink = "jdbc:postgresql://52.24.215.108:5432/AtlusTech";
@@ -28,7 +28,6 @@ public class Database {
 			Class.forName("org.postgresql.Driver");
 			con = DriverManager.getConnection(logLink, user, password);
 			if (con != null) {
-				System.out.println("Database connection succeeded!");
 				status = true;
 			} else {
 				System.err.println("Failed to make connection!");
@@ -53,11 +52,26 @@ public class Database {
 		try{
 			Connection c = getConnection();
 			stmt = c.createStatement();
-			String SQL = "CREATE TABLE DATA " +
-                    "(game INT PRIMARY KEY     NOT NULL," +
-                    " draws           REAL    NOT NULL, " +
-                    " round          INT     NOT NULL, " +
-                    " winner          INT	NOT NULL); ";
+			String SQL = "CREATE TABLE player" + 
+					"(playerOrWinnerID		INT   			NOT NULL," + 
+					"playerName				VARCHAR(16)		NOT NULL," + 
+					"PRIMARY KEY(playerOrWinnerID) );" + 
+					"CREATE TABLE gameRecord" + 
+					"(game					INT 	     	NOT NULL," + 
+					"roundCount				INT 			NOT NULL," + 
+					"draws					REAL    		NOT NULL," + 
+					"playerOrWinnerID		INT				NOT NULL," + 
+					"PRIMARY KEY(game)," + 
+					"FOREIGN KEY(playerOrWinnerID) references Player(playerOrWinnerID));" + 
+					"CREATE TABLE roundRecord" + 
+					"(game					INT				NOT NULL," + 
+					"playerOrWinnerID		INT	 			NOT NULL," + 
+					"numberofWinRound		int				NOT NULL," + 
+					"PRIMARY KEY(game,playerOrWinnerID)," + 
+					"FOREIGN KEY(game) REFERENCES GameRecord(game)," + 
+					"FOREIGN KEY(playerOrWinnerID) REFERENCES Player(playerOrWinnerID));" + 
+					"INSERT INTO player (playerOrWinnerID, playername)" + 
+					"VALUES (0,'Human'),(1,'AI player1'),(2,'AI player2'),(3,'AI player3'),(4,'AI player4');" ;
 			stmt.executeUpdate(SQL);
 			stmt.close();
 		}catch(Exception e) {
@@ -72,9 +86,9 @@ public class Database {
 		try {
 			Connection c = getConnection();
 			stmt = c.createStatement();
-			this.rs = stmt.executeQuery("SELECT count(*) FROM GameRecord");
+			this.rs = stmt.executeQuery("SELECT MAX(game) AS numOfGames FROM GameRecord");
 			if(this.rs.next()) {
-				num = rs.getInt("count");
+				num = rs.getInt("numOfGames");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error to get number of games!");
@@ -89,7 +103,7 @@ public class Database {
 		try {
 			Connection c = getConnection();
 			stmt = c.createStatement();
-			this.rs = stmt.executeQuery("SELECT count(*) AS sumHumanWin FROM GameRecord WHERE WINNER = 0");
+			this.rs = stmt.executeQuery("SELECT count(*) AS sumHumanWin FROM GameRecord WHERE PLAYERORWINNERID = 0");
 			if(this.rs.next()) {
 				num = rs.getInt("sumHumanWin");
 			}
@@ -106,7 +120,7 @@ public class Database {
 		try {
 			Connection c = getConnection();
 			stmt = c.createStatement();
-			this.rs = stmt.executeQuery("SELECT count(*) AS sumAIWin FROM GameRecord WHERE WINNER != 0");
+			this.rs = stmt.executeQuery("SELECT count(*) AS sumAIWin FROM GameRecord WHERE PLAYERORWINNERID != 0");
 			if(this.rs.next()) {
 				num = rs.getInt("sumAIWin");
 			}
@@ -140,7 +154,7 @@ public class Database {
 		try {
 			Connection c = getConnection();
 			stmt = c.createStatement();
-			this.rs = stmt.executeQuery("SELECT MAX(ROUNDS) AS LongestRuond FROM GameRecord");
+			this.rs = stmt.executeQuery("SELECT MAX(roundCount) AS LongestRuond FROM GameRecord");
 			if(this.rs.next())
 				num = this.rs.getInt("LongestRuond");
 		} catch (SQLException e) {
@@ -150,13 +164,18 @@ public class Database {
 		return num;
 		
 	}
+
+	public void uploadRoundRecord() {
+		
+	}
 	
-	public void uploadGameRecord(int GAME, int DRAWS, int ROUND, int WINNER) {
+	
+	public void uploadGameRecord(int GAME, int DRAWS, int roundCount, int WINNER) {
 		try {
 			Connection c = getConnection();
 			PreparedStatement create = c.prepareStatement(
-					"INSERT INTO GameRecord(GAME,DRAWS,ROUND,WINNER) "
-					+ "values('"+GAME+"','"+DRAWS+"','"+ROUND+"','"+WINNER+"')");
+					"INSERT INTO GameRecord(GAME,DRAWS,roundCount,playerOrWinnerID) "
+					+ "values('"+GAME+"','"+DRAWS+"','"+roundCount+"','"+WINNER+"')");
 
 			create.executeUpdate();
 		} catch (Exception e) {
