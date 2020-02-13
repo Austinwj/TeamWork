@@ -45,6 +45,7 @@ public class TopTrumpsRESTAPI {
 	private String p1Name;
 	private Player p1;
 	private ArrayList<Player> removedPlayer = new ArrayList<Player>();
+	private Game game;
 
 
 	
@@ -61,6 +62,7 @@ public class TopTrumpsRESTAPI {
 
 		// Reset
 		reset();
+		game = new Game();
 	}
 	
 	// ----------------------------------------------------
@@ -76,11 +78,14 @@ public class TopTrumpsRESTAPI {
 			String str = "AI Player " + (i + 1);
 			players.add(new Player(str));
 		}
+		createDeck();
 	}
 
 
 	// Reset
-	private void reset() {
+	@GET
+	@Path("/reset")
+	public void reset() {
 		// Clear some array for new game
 		players.clear();
 		commonPile.clear();
@@ -88,6 +93,142 @@ public class TopTrumpsRESTAPI {
 		// Add cards to card list
 		deck = new Deck();
 		deck.addCards();
+	}
+
+
+	@GET
+	@Path("/drawCard")
+	// Print Round info and drew card
+	public void drawCard() {
+		Random r = new Random();
+		int rp = 0;
+		if (round == 1){
+			rp = r.nextInt(players.size());
+			p = players.get(rp);
+		}
+
+//		System.out.println();
+//		System.out.println("Round " + round);
+//		System.out.println("Round " + round + ": Player have drawn their cards!");
+
+//		if (!p1.getDeck().empty()){
+//			System.out.println("You drew: " + "'" + p1.getDeck().peek().getName() + "'");
+
+//			for (int i = 0; i < 5 ; i++){
+//				String property = p1.getDeck().peek().properties[i];
+//				int value = p1.getDeck().peek().getValues(i);
+//				System.out.println("\t" + (i+1) + " >" + " " + property + ": " + value);
+//			}
+
+//			System.out.println("There are " + (p1.getDeck().size() - 1 ) + " cards left in your deck!");
+//		}
+	}
+
+
+	@GET
+	@Path("/choose")
+	public void choose(@QueryParam("Number") int num) throws IOException {
+
+		// Human player choose property
+		if (num >=1 && num <= 5){
+			checkWin(num-1);
+		}
+		// AI player choose property
+		else{
+			ArrayList<Integer> option = new ArrayList<Integer>();
+			ArrayList<Integer> randChoose = new ArrayList<Integer>();
+			Random r = new Random();
+
+			System.out.println("Now turn is " + p.getName());
+			for (int k = 0; k < 5; k++) {
+				option.add(p.getDeck().peek().getValues(k));
+			}
+			int max = Collections.max(option);
+			int m = 0;
+			for (int j = 0; j < option.size(); j++) {
+				if (option.get(j) == max){
+					m++;
+					randChoose.add(j);
+				}
+			}
+
+			int choose = option.indexOf(Collections.max(option));
+			if (m == 1){
+				checkWin(choose);
+			}
+			else{
+				checkWin(randChoose.get(r.nextInt(randChoose.size())));
+			}
+		}
+		round++;
+		drawCard();
+
+	}
+
+	@GET
+	@Path("/sendCard")
+	public String sendCard() throws IOException {
+		int[] cardValue = new int[5];
+
+//		for (int i = 0; i < 5; i++) {
+//			cardValue[i] = p1.getDeck().peek().getValues(i);
+//		}
+
+		String card = oWriter.writeValueAsString(p1.getDeck().peek());
+		return card;
+
+	}
+
+	@GET
+	@Path("/removeCard")
+	public void removeCard() throws IOException {
+		for (int k = 0; k < players.size(); k++) {
+			players.get(k).getDeck().pop();
+
+		}
+	}
+
+
+	// Check biggest property
+	private void checkWin(int i) {
+		ArrayList<Integer> check = new ArrayList<Integer>();
+		for (int k = 0; k < players.size(); k++) {
+			check.add(players.get(k).getDeck().peek().getValues(i));
+		}
+		int max = Collections.max(check);
+		int m = 0;
+		for (int j = 0; j < check.size(); j++) {
+			if (check.get(j) == max) {
+				m++;
+			}
+		}
+
+		int win = check.indexOf(Collections.max(check));
+		// Only have one big property
+		if (m == 1) {
+			System.out.println("Round " + round + ": " + players.get(win).getName() + " Win!");
+			int cp = commonPile.size();
+			for (int n = 0; n < cp; n++) {
+				players.get(win).getDeck().add(0, commonPile.pop());
+			}
+			for (int q = 0; q < players.size(); q++) {
+				players.get(win).getDeck().add(0, players.get(q).getDeck().peek());
+			}
+
+			//showWinCard(players.get(win).getDeck().peek(),i);
+			p = players.get(win);
+		}
+		// Have two+ same property
+		else {
+			// Add into common pile
+			for (int k = 0; k < players.size(); k++) {
+				commonPile.add(players.get(k).getDeck().peek());
+				Collections.shuffle(commonPile);
+			}
+			System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
+			//showWinCard(players.get(win).getDeck().peek(),i);
+			//numDraw++;
+		}
 	}
 
 
@@ -133,7 +274,6 @@ public class TopTrumpsRESTAPI {
 
 		}
 	}
-
 	
 	@GET
 	@Path("/helloJSONList")
