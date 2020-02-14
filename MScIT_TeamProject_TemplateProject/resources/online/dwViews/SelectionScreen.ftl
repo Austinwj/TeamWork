@@ -39,7 +39,7 @@
 	</div>
 
 	<div style="background-color:palevioletred; width: 50%; text-align: center; margin-left: 25%;">
-		<a href="javascript:void(0);" onclick="newGame()">
+		<a href="http://localhost:7777/toptrumps/game">
             <span style="height: 30px;line-height: 30px; color: white">
                 >> New Game <<
             </span>

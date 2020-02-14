@@ -16,6 +16,7 @@ import online.configuration.TopTrumpsJSONConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.eclipse.jetty.util.IO;
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
@@ -42,12 +43,12 @@ public class TopTrumpsRESTAPI {
 	private int round = 1;
 	private Deck deck;
 	private Player p;
-	private String p1Name;
 	private Player p1;
 	private ArrayList<Player> removedPlayer = new ArrayList<Player>();
 	private Game game;
 	private Card[] card = new Card[5];
 	private String message = "Hello!";
+	private int winner;
 
 
 	
@@ -85,20 +86,19 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/addPlayer")
 	public void addPlayer(@QueryParam("Number") int number) throws IOException {
-		// Clear some array for new game
-		players.clear();
-		commonPile.clear();
 
 		// Add cards to card list
 		deck.addCards();
 		System.out.println("########## Deck Size: " + deck.getStack().size());
 		players.add(p1);
+		System.out.println("########## Players Size: " + players.size());
 		this.aiNum = number;
 		for (int i = 0; i < aiNum ; i++){
 			String str = "AI Player " + (i + 1);
 			players.add(new Player(str));
 		}
 		createDeck();
+		System.out.println("########## Players Size: " + players.size());
 	}
 
 
@@ -113,6 +113,8 @@ public class TopTrumpsRESTAPI {
 
 		// Add cards to card list
 		deck.getStack().clear();
+
+		round = 1;
 	}
 
 
@@ -150,14 +152,17 @@ public class TopTrumpsRESTAPI {
 	public void choose(@QueryParam("Number") int num) throws IOException {
 
 		// Human player choose property
-		if (num >=1 && num <= 5){
-			checkWin(num-1);
+		if (num >= 0 && num <= 4){
+			checkWin(num);
 		}
 		// AI player choose property
 		else{
 			ArrayList<Integer> option = new ArrayList<Integer>();
 			ArrayList<Integer> randChoose = new ArrayList<Integer>();
 			Random r = new Random();
+
+			System.out.println("########" + p.getName());
+			System.out.println("######## " + p.getDeck().size());
 
 			//System.out.println("Now turn is " + p.getName());
 			for (int k = 0; k < 5; k++) {
@@ -180,15 +185,49 @@ public class TopTrumpsRESTAPI {
 				checkWin(randChoose.get(r.nextInt(randChoose.size())));
 			}
 		}
+
+
 		round++;
-		//drawCard();
 		removeCard();
+		//drawCard();
+
+		int b = 0;
+		for (int a = 0; a < players.size(); a ++){
+			if (players.get(a).getDeck().size() != 0){
+				b++;
+			}
+		}
+
+		if (b == 1) {
+			for (int c = 0; c < players.size(); c++) {
+				if (players.get(c).getDeck().size() != 0){
+					message = "Winner is " + players.get(c).getName() + " !! Congratulations!";
+					winner = 1;
+				}
+			}
+		}
+
+		System.out.println("########## Players Size: " + players.size());
 	}
 
 	
 	@GET
 	@Path("/getMessage")
 	public String getMessage() throws IOException {
+		return message;
+	}
+
+	@GET
+	@Path("/getWinner")
+	public int getWinner() throws IOException{
+		return winner;
+	}
+
+
+
+	@GET
+	@Path("/getPlayer")
+	public String getPlayer() throws IOException {
 		Random r = new Random();
 		int rp;
 		if (round == 1){
@@ -196,8 +235,8 @@ public class TopTrumpsRESTAPI {
 			p = players.get(rp);
 			message = "Now turn is " + p.getName() + ", time to Choose Property!";
 		}
-		
-		return message;
+
+		return p.getName();
 	}
 	
 
@@ -205,7 +244,12 @@ public class TopTrumpsRESTAPI {
 	@Path("/getCard")
 	public String getCard() throws IOException {
 		for (int i = 0; i < players.size(); i++) {
-			card[i] = players.get(i).getDeck().peek();
+			if (players.get(i).getDeck().size() == 0) {
+				card[i] = null;
+			}
+			else {
+				card[i] = players.get(i).getDeck().peek();
+			}
 		}
 		String list = oWriter.writeValueAsString(card);
 		return list;
@@ -215,7 +259,12 @@ public class TopTrumpsRESTAPI {
 	@Path("/removeCard")
 	public void removeCard() throws IOException {
 		for (int k = 0; k < players.size(); k++) {
-			players.get(k).getDeck().pop();
+			if (players.get(k).getDeck().size() == 0) {
+				continue;
+			}
+			else {
+				players.get(k).getDeck().pop();
+			}
 		}
 	}
 
@@ -237,6 +286,7 @@ public class TopTrumpsRESTAPI {
 
 		String pilesList = oWriter.writeValueAsString(piles);
 		System.out.println("##############" + pilesList);
+
 		return pilesList;
 
 	}
@@ -249,10 +299,16 @@ public class TopTrumpsRESTAPI {
 
 
 	// Check biggest property
-	private void checkWin(int i) {
+	private void checkWin(int i){
+
 		ArrayList<Integer> check = new ArrayList<Integer>();
 		for (int k = 0; k < players.size(); k++) {
-			check.add(players.get(k).getDeck().peek().getValues(i));
+			if (players.get(k).getDeck().size() == 0) {
+				check.add(-1);
+			}
+			else {
+				check.add(players.get(k).getDeck().peek().getValues(i));
+			}
 		}
 		int max = Collections.max(check);
 		int m = 0;
@@ -271,7 +327,12 @@ public class TopTrumpsRESTAPI {
 				players.get(win).getDeck().add(0, commonPile.pop());
 			}
 			for (int q = 0; q < players.size(); q++) {
-				players.get(win).getDeck().add(0, players.get(q).getDeck().peek());
+				if (players.get(q).getDeck().size() == 0) {
+					continue;
+				}
+				else {
+					players.get(win).getDeck().add(0, players.get(q).getDeck().peek());
+				}
 			}
 
 			//showWinCard(players.get(win).getDeck().peek(),i);
@@ -282,8 +343,13 @@ public class TopTrumpsRESTAPI {
 		else {
 			// Add into common pile
 			for (int k = 0; k < players.size(); k++) {
-				commonPile.add(players.get(k).getDeck().peek());
-				Collections.shuffle(commonPile);
+				if (players.get(k).getDeck().size() == 0) {
+					continue;
+				}
+				else {
+					commonPile.add(players.get(k).getDeck().peek());
+					Collections.shuffle(commonPile);
+				}
 			}
 			//System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
 			//showWinCard(players.get(win).getDeck().peek(),i);

@@ -46,7 +46,7 @@
             background-color: #363636;
             color: white;
             border: 1px solid white;
-            outline: 1px solid #363636;
+            outline: 1px solid cornflowerblue;
         }
 
         .button1:hover {
@@ -54,10 +54,29 @@
             color: white;
         }
 
-        .button1:focus {
+        .button1:active {
             position: relative;
             border: 2px solid cornflowerblue;
-            top: 1px;
+            top: 2px;
+            outline: 0
+        }
+
+        .button2 {
+            background-color: #363636;
+            color: white;
+            border: 1px solid white;
+            outline: 2px solid cornflowerblue;
+        }
+
+        .button2:hover {
+            border: 2px solid cornflowerblue;
+            color: white;
+        }
+
+        .button2:active {
+            position: relative;
+            border: 2px solid cornflowerblue;
+            top: 3px;
             outline: 0
         }
 
@@ -595,31 +614,41 @@
 
     <div class="message" style="float: left; margin-top: 20px; width: 100%;">
 
-        <div style="float: left; height: 20px; margin-top: 20px; width: 25%">
-            <div style="float: left; margin-left: 10px; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
-                Common Pile : &nbsp;
-            </div>
-            <div id="commonPile"
-                 style="float: left; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 10%; text-align: center;">
-                0
-            </div>
+
+        <div style="float: left; height: 20px; margin-top: 20px; width: 10%; margin-left: 30px">
+            <button id="buttonR" type="button" class="button button2" onclick="choose(5)"
+                    style="width: 100%; height: 20px; line-height: 15px">
+                Next Round
+            </button>
 
         </div>
 
-        <div style="float: left; height: 20px; margin-top: 20px; width: 50%">
+        <div style="float: left; height: 20px; margin-top: 20px; width: 40%; margin-left: 120px">
             <div id="message"
-                 style="background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 100%; text-align: center;">
+                 style="float: left; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 100%; text-align: center;">
                 Hello!
             </div>
 
         </div>
 
-        <div style="float: left; height: 20px; margin-top: 20px; width: 25%;">
-            <div id="round"
-                 style="float: right; margin-right: 50px; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 10%; text-align: center;">
+        <div style="float: right; height: 20px; margin-top: 20px; width: 20%">
+            <div id="commonPile"
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 10%; text-align: center;">
                 0
             </div>
-            <div style="float: right; margin-right: 10px; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+
+            <div style=" float: right;  color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                Common Pile : &nbsp;
+            </div>
+
+        </div>
+
+        <div style="float: right; height: 20px; margin-top: 20px; width: 10%;">
+            <div id="round"
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 20%; text-align: center;">
+                0
+            </div>
+            <div style="float: right;  color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
                 Round : &nbsp;
             </div>
 
@@ -638,6 +667,8 @@
         // --------------------------------------------------------------------------
         // You can call other methods you want to run when the page first loads here
         // --------------------------------------------------------------------------
+        button1Status(0);
+        button2Status(0);
 
     }
 
@@ -681,17 +712,37 @@
         xhr.send();
     }
 
+    function button1Status(x) {
+        if (x == 0){
+            for (var i = 1; i < 6 ; i ++){
+                $('#button'+i).attr("disabled",true);
+            }
+        }
+        else {
+            for (var i = 1; i < 6 ; i ++){
+                $('#button'+i).attr("disabled",false);
+            }
+        }
+    }
+
+    function button2Status(x) {
+        if (x == 0){
+            $('#buttonR').attr("disabled",true);
+        }
+        else {
+            $('#buttonR').attr("disabled",false);
+        }
+    }
+
 
     function startGame() {
+        reset();
         var num = prompt("Enter the number of AI player:");
         if (num == null) {
             window.opener.location.reload();
         } else if (num >= "1" && num <= "4") {
             alert("Game Start!");
-            reset();
             addPlayer(num);
-            //drawCard();
-            //sendCard();
         } else if (num < "1") {
             alert("At least one AI player!")
             window.opener.location.reload();
@@ -711,12 +762,36 @@
             alert("CORS not supported");
         }
         xhr.onload = function (e) {
+            getPlayer();
             getCard();
             getPile();
-            getRound();
             getMessage();
+        };
+        xhr.send();
+    }
+
+
+    function getPlayer() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPlayer"); // Request type and URL
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            var responseText = xhr.response;
+            if (responseText === "Human Player"){
+                button1Status(1);
+                button2Status(0);
+                //document.getElementById("message").innerHTML = "Now is your turn! Choose a Property!";
+            }
+            else {
+                button1Status(0);
+                button2Status(1);
+                //document.getElementById("message").innerHTML = "Now turn is " + responseText + ", Press Next Round to go on!";
+            }
         }
         xhr.send();
+
+
     }
 
     function drawCard() {
@@ -732,11 +807,15 @@
         if (!xhr) {
             alert("CORS not supported");
         }
-        //removeCard();
-        getMessage();
-        getCard();
-        getPile();
-        getRound();
+        xhr.onload = function (e) {
+            getWinner();
+            getPlayer();
+            getPile();
+            getRound();
+            getMessage();
+            getCard();
+        };
+
         xhr.send();
 
     }
@@ -751,10 +830,17 @@
             list = jQuery.parseJSON(responseText);
 
             for (i = 0; i < 5; i++) {
+                var j = i + 1;
                 if (list[i] == null) {
+                    document.getElementById("CardNameP" + j).innerHTML = "";
+                    document.getElementById("SizeP" + j).innerHTML = "";
+                    document.getElementById("SpeedP" + j).innerHTML = "";
+                    document.getElementById("RangeP" + j).innerHTML = "";
+                    document.getElementById("FirepowerP" + j).innerHTML = "";
+                    document.getElementById("CargoP" + j).innerHTML = "";
+                    document.getElementById("StatusP" + j).innerHTML = "Died!";
                     continue;
                 } else {
-                    var j = i + 1;
                     document.getElementById("CardNameP" + j).innerHTML = list[i].name;
                     document.getElementById("SizeP" + j).innerHTML = list[i].size;
                     document.getElementById("SpeedP" + j).innerHTML = list[i].speed;
@@ -817,6 +903,21 @@
         xhr.onload = function (e) {
             var responseText = xhr.response;
             document.getElementById("message").innerHTML = responseText;
+        }
+        xhr.send();
+    }
+
+    function getWinner() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getWinner");
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            var responseText = xhr.response;
+            if (responseText == 1){
+                button1Status(0);
+                button2Status(0);
+            }
         }
         xhr.send();
     }
