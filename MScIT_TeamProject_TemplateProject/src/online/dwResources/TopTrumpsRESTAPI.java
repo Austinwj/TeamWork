@@ -46,6 +46,7 @@ public class TopTrumpsRESTAPI {
 	private Player p1;
 	private ArrayList<Player> removedPlayer = new ArrayList<Player>();
 	private Game game;
+	private Card[] card = new Card[5];
 
 
 	
@@ -60,18 +61,36 @@ public class TopTrumpsRESTAPI {
 		// Add relevant initalization here
 		// ----------------------------------------------------
 
-		// Reset
-		reset();
 		game = new Game();
+		deck = new Deck();
+		p1 = new Player("Human Player");
+
+
 	}
-	
+
 	// ----------------------------------------------------
 	// Add relevant API methods here
 	// ----------------------------------------------------
 	@GET
+	@Path("/newGame")
+	public void newGame() {
+		// Reset
+		game = new Game();
+		deck = new Deck();
+		p1 = new Player("Human Player");
+	}
+
+
+	@GET
 	@Path("/addPlayer")
 	public void addPlayer(@QueryParam("Number") int number) throws IOException {
-		p1 = new Player("Human Player");
+		// Clear some array for new game
+		players.clear();
+		commonPile.clear();
+
+		// Add cards to card list
+		deck.addCards();
+		System.out.println("########## Deck Size: " + deck.getStack().size());
 		players.add(p1);
 		this.aiNum = number;
 		for (int i = 0; i < aiNum ; i++){
@@ -88,11 +107,11 @@ public class TopTrumpsRESTAPI {
 	public void reset() {
 		// Clear some array for new game
 		players.clear();
+		p1.getDeck().clear();
 		commonPile.clear();
 
 		// Add cards to card list
-		deck = new Deck();
-		deck.addCards();
+		deck.getStack().clear();
 	}
 
 
@@ -101,7 +120,7 @@ public class TopTrumpsRESTAPI {
 	// Print Round info and drew card
 	public void drawCard() {
 		Random r = new Random();
-		int rp = 0;
+		int rp;
 		if (round == 1){
 			rp = r.nextInt(players.size());
 			p = players.get(rp);
@@ -161,22 +180,32 @@ public class TopTrumpsRESTAPI {
 			}
 		}
 		round++;
-		drawCard();
-
+		//drawCard();
+		removeCard();
 	}
 
+	
 	@GET
-	@Path("/sendCard")
-	public String sendCard() throws IOException {
-		int[] cardValue = new int[5];
+	@Path("/getMessage")
+	public String getMessage() throws IOException {
+		String message = "Hello!";
+		
+		if (round == 1){
+			message = "Choose Property!";
+		}
+		
+		return message;
+	}
+	
 
-//		for (int i = 0; i < 5; i++) {
-//			cardValue[i] = p1.getDeck().peek().getValues(i);
-//		}
-
-		String card = oWriter.writeValueAsString(p1.getDeck().peek());
-		return card;
-
+	@GET
+	@Path("/getCard")
+	public String getCard() throws IOException {
+		for (int i = 0; i < players.size(); i++) {
+			card[i] = players.get(i).getDeck().peek();
+		}
+		String list = oWriter.writeValueAsString(card);
+		return list;
 	}
 
 	@GET
@@ -184,8 +213,35 @@ public class TopTrumpsRESTAPI {
 	public void removeCard() throws IOException {
 		for (int k = 0; k < players.size(); k++) {
 			players.get(k).getDeck().pop();
+		}
+	}
+
+	@GET
+	@Path("/getPile")
+	public String getPile() throws IOException {
+		int[] piles = new int[6];
+
+		for (int i = 0; i < 5; i++) {
+			if (i < players.size()){
+				piles[i] = players.get(i).getDeck().size() - 1;
+			}
+			else {
+				piles[i] = 0;
+			}
 
 		}
+		piles[5] = commonPile.size();
+
+		String pilesList = oWriter.writeValueAsString(piles);
+		System.out.println("##############" + pilesList);
+		return pilesList;
+
+	}
+
+	@GET
+	@Path("/getRound")
+	public int getRound() throws IOException{
+		return round;
 	}
 
 

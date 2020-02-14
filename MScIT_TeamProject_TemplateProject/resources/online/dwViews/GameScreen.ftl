@@ -31,85 +31,558 @@
 
 <div class="container">
 
-
-    <div style="background-color: #363636; height: 30px; width: 100%; text-align: center">
+    <div class="header" style="background-color: #363636; height: 30px; width: 100%; text-align: center">
         <p style="color: white; font-weight: bold; font-size: 19px; line-height: 30px;">
             Top Trumps
         </p>
     </div>
 
+    <div class="sub-header" style="margin-top: 20px">
 
-    <div style="height: 20px; width: 10%; margin-top: 20px;">
-        <div style="float: left; color: black; font-weight: bold; font-size: 10px; line-height: 20px;">
-            Choose a property:
+        <a href="javascript:void(0);" onclick="startGame()">
+            <div style="float: left; background-color: #363636; height: 20px; width: 30%; text-align: center">
+                <div style="color: white; font-weight: bold; font-size: 15px; line-height: 20px;">
+                    Start a New Game
+                </div>
+
+            </div>
+        </a>
+
+        <a href="javascript:void(0);" onclick="">
+            <div style="float: left; background-color: #363636; height: 20px; width: 30%; margin-left: 60px; text-align: center">
+                <div style="color: white; font-weight: bold; font-size: 15px; line-height: 20px;">
+                    Game Statistics
+                </div>
+
+            </div>
+        </a>
+
+        <a href="http://localhost:7777/toptrumps/" onclick="window.close()">
+            <div style="float: right; background-color: #363636; height: 20px; width: 30%; margin-left: 50px; text-align: center">
+                <div style="color: white; font-weight: bold; font-size: 15px; line-height: 20px;">
+                    Exit Game
+                </div>
+
+            </div>
+        </a>
+
+    </div>
+
+
+    <div class="Player1" style="float: left; margin-top: 20px; width: 15%; ">
+
+        <div style="height: 20px; margin-top: 20px ">
+            <div id="playerName"
+                 style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                You
+            </div>
+            <div id="leftCardsP1"
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 15%; text-align: center;">
+                0
+            </div>
+            <div style="float: right; color: black; font-weight: bold; font-size: 10px;  line-height: 20px;">
+                pile : &nbsp;
+            </div>
+
+        </div>
+
+        <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
+            <div id="CardNameP1"
+                 style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <a href="javascript:void(0);" onclick="choose(0)">
+            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+                <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                    Size:
+                </div>
+
+                <div id="SizeP1"
+                     style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+                </div>
+            </div>
+        </a>
+
+        <a href="javascript:void(0);" onclick="choose(1)">
+            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+                <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                    Speed:
+                </div>
+
+                <div id="SpeedP1"
+                     style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+                </div>
+            </div>
+        </a>
+
+        <a href="javascript:void(0);" onclick="choose(2)">
+            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+                <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                    Range:
+                </div>
+
+                <div id="RangeP1"
+                     style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+                </div>
+            </div>
+        </a>
+
+        <a href="javascript:void(0);" onclick="choose(3)">
+            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+                <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                    Firepower:
+                </div>
+
+                <div id="FirepowerP1"
+                     style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+                </div>
+            </div>
+        </a>
+
+        <a href="javascript:void(0);" onclick="choose(4)">
+            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+                <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                    Cargo:
+                </div>
+
+                <div id="CargoP1"
+                     style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+                </div>
+            </div>
+        </a>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Status:
+            </div>
+
+            <div id="StatusP1"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+                Died!
+            </div>
         </div>
 
     </div>
 
-    <a href="javascript:void(0);" onclick="choose(0)">
-        <div style="background-color: #363636; height: 20px; width: 10%; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 10px; line-height: 20px;">
+
+    <div class="Player2" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
+
+        <div style="height: 20px; margin-top: 20px ">
+            <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                AI Player 1
+            </div>
+            <div id="leftCardsP2"
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 15%; text-align: center;">
+                0
+            </div>
+            <div style="float: right; color: black; font-weight: bold; font-size: 10px;  line-height: 20px;">
+                pile : &nbsp;
+            </div>
+        </div>
+
+        <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
+            <div id="CardNameP2"
+                 style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                 Size:
             </div>
 
-            <div id="pSize"
-                 style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 20px; line-height: 20px;">
-                test
+            <div id="SizeP2"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
             </div>
         </div>
-    </a>
 
-    <a href="javascript:void(0);" onclick="choose(1)">
-        <div style="background-color: #363636; height: 20px; width: 10%; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 10px; line-height: 20px;">
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                 Speed:
             </div>
 
-            <div id="pSpeed"
-                 style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 20px; line-height: 20px;">
-                test
+            <div id="SpeedP2"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
             </div>
         </div>
-    </a>
 
-    <a href="javascript:void(0);" onclick="choose(2)">
-        <div style="background-color: #363636; height: 20px; width: 10%; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 10px; line-height: 20px;">
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                 Range:
             </div>
 
-            <div id="pRange"
-                 style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 20px; line-height: 20px;">
-                test
+            <div id="RangeP2"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
             </div>
         </div>
-    </a>
 
-    <a href="javascript:void(0);" onclick="choose(3)">
-        <div style="background-color: #363636; height: 20px; width: 10%; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 10px; line-height: 20px;">
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                 Firepower:
             </div>
 
-            <div id="pFirepower"
-                 style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 10px; line-height: 20px;">
-                test
+            <div id="FirepowerP2"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
             </div>
         </div>
-    </a>
 
-    <a href="javascript:void(0);" onclick="choose(4)">
-        <div style="background-color: #363636; height: 20px; width: 10%; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 10px; line-height: 20px;">
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                 Cargo:
             </div>
 
-            <div id="pCargo"
-                 style="float: left; color: white; font-weight: bold; font-size: 10px; margin-left: 20px; line-height: 20px;">
-                test
+            <div id="CargoP2"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
             </div>
         </div>
-    </a>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Status:
+            </div>
+
+            <div id="StatusP2"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+                Died!
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="Player3" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
+
+        <div style="height: 20px; margin-top: 20px ">
+            <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                AI Player 2
+            </div>
+            <div id="leftCardsP3"
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 15%; text-align: center;">
+                0
+            </div>
+            <div style="float: right; color: black; font-weight: bold; font-size: 10px;  line-height: 20px;">
+                pile : &nbsp;
+            </div>
+        </div>
+
+        <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
+            <div id="CardNameP3"
+                 style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Size:
+            </div>
+
+            <div id="SizeP3"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Speed:
+            </div>
+
+            <div id="SpeedP3"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Range:
+            </div>
+
+            <div id="RangeP3"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Firepower:
+            </div>
+
+            <div id="FirepowerP3"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Cargo:
+            </div>
+
+            <div id="CargoP3"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Status:
+            </div>
+
+            <div id="StatusP3"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+                Died!
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="Player4" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
+
+        <div style="height: 20px; margin-top: 20px ">
+            <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                AI Player 3
+            </div>
+            <div id="leftCardsP4"
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 15%; text-align: center;">
+                0
+            </div>
+            <div style="float: right; color: black; font-weight: bold; font-size: 10px;  line-height: 20px;">
+                pile : &nbsp;
+            </div>
+        </div>
+
+        <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
+            <div id="CardNameP4"
+                 style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Size:
+            </div>
+
+            <div id="SizeP4"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Speed:
+            </div>
+
+            <div id="SpeedP4"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Range:
+            </div>
+
+            <div id="RangeP4"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Firepower:
+            </div>
+
+            <div id="FirepowerP4"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Cargo:
+            </div>
+
+            <div id="CargoP4"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Status:
+            </div>
+
+            <div id="StatusP4"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+                Died!
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="Player5" style="float: right; margin-left: 66px; margin-top: 20px; width: 15%; ">
+
+        <div style="height: 20px; margin-top: 20px ">
+            <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                AI Player 4
+            </div>
+            <div id="leftCardsP5"
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 15%; text-align: center;">
+                0
+            </div>
+            <div style="float: right; color: black; font-weight: bold; font-size: 10px;  line-height: 20px;">
+                pile : &nbsp;
+            </div>
+        </div>
+
+        <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
+            <div id="CardNameP5"
+                 style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Size:
+            </div>
+
+            <div id="SizeP5"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Speed:
+            </div>
+
+            <div id="SpeedP5"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Range:
+            </div>
+
+            <div id="RangeP5"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Firepower:
+            </div>
+
+            <div id="FirepowerP5"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Cargo:
+            </div>
+
+            <div id="CargoP5"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+
+            </div>
+        </div>
+
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+                Status:
+            </div>
+
+            <div id="StatusP5"
+                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+                Died!
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="message" style="float: left; margin-top: 20px; width: 100%;">
+
+        <div style="float: left; height: 20px; margin-top: 20px; width: 25%">
+            <div style="float: left; margin-left: 10px; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                Common Pile : &nbsp;
+            </div>
+            <div id="commonPile"
+                 style="float: left; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 10%; text-align: center;">
+                0
+            </div>
+
+        </div>
+
+        <div style="float: left; height: 20px; margin-top: 20px; width: 50%">
+            <div id="message"
+                 style="background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 100%; text-align: center;">
+                Hello!
+            </div>
+
+        </div>
+
+        <div style="float: left; height: 20px; margin-top: 20px; width: 25%;">
+            <div id="round"
+                 style="float: right; margin-right: 50px; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 10%; text-align: center;">
+                0
+            </div>
+            <div style="float: right; margin-right: 10px; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
+                Round : &nbsp;
+            </div>
+
+        </div>
+
+
+    </div>
 
 </div>
 
@@ -121,10 +594,6 @@
         // --------------------------------------------------------------------------
         // You can call other methods you want to run when the page first loads here
         // --------------------------------------------------------------------------
-        reset();
-        addPlayer();
-        drawCard();
-        sendCard();
 
     }
 
@@ -160,16 +629,49 @@
     // -----------------------------------------
     // Add your other Javascript methods Here
     // -----------------------------------------
+    function newGame() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/newGame");
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.send();
+    }
 
-    var  aiNum = undefined;
+
+    function startGame() {
+        var num = prompt("Enter the number of AI player:");
+        if (num == null) {
+            window.opener.location.reload();
+        } else if (num >= "1" && num <= "4") {
+            alert("Game Start!");
+            reset();
+            addPlayer(num);
+            //drawCard();
+            //sendCard();
+        } else if (num < "1") {
+            alert("At least one AI player!")
+            window.opener.location.reload();
+        } else if (num > "4") {
+            alert("Most 4 players!");
+            window.opener.location.reload();
+        }
+    }
 
     // Add AI function
     // This calls the helloJSONList REST method from TopTrumpsRESTAPI
-    function addPlayer() {
-        aiNum = location.search.split("=")[1];
+    var list = undefined;
+
+    function addPlayer(aiNum) {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/addPlayer?Number=" + aiNum); // Request type and URL
         if (!xhr) {
             alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            getCard();
+            getPile();
+            getRound();
+            getMessage();
+
         }
         xhr.send();
     }
@@ -187,28 +689,96 @@
         if (!xhr) {
             alert("CORS not supported");
         }
-        removeCard();
-        sendCard();
+        //removeCard();
+        getCard();
+        getPile();
+        gerRound();
         xhr.send();
 
     }
 
-    function sendCard() {
-        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/sendCard");
+    function getCard() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getCard");
         if (!xhr) {
             alert("CORS not supported");
         }
         xhr.onload = function (e) {
             var responseText = xhr.response;
-            var card = jQuery.parseJSON(responseText);
-            document.getElementById("pSize").innerHTML = card.size;
-            document.getElementById("pSpeed").innerHTML = card.speed;
-            document.getElementById("pRange").innerHTML = card.range;
-            document.getElementById("pFirepower").innerHTML = card.firepower;
-            document.getElementById("pCargo").innerHTML = card.cargo;
-        };
+            list = jQuery.parseJSON(responseText);
+
+            for (i = 0; i < 5; i++) {
+                if (list[i] == null) {
+                    continue;
+                } else {
+                    var j = i + 1;
+                    document.getElementById("CardNameP" + j).innerHTML = list[i].name;
+                    document.getElementById("SizeP" + j).innerHTML = list[i].size;
+                    document.getElementById("SpeedP" + j).innerHTML = list[i].speed;
+                    document.getElementById("RangeP" + j).innerHTML = list[i].range;
+                    document.getElementById("FirepowerP" + j).innerHTML = list[i].firepower;
+                    document.getElementById("CargoP" + j).innerHTML = list[i].cargo;
+                    document.getElementById("StatusP" + j).innerHTML = "Alive";
+                }
+
+            }
+
+        }
         xhr.send();
     }
+
+
+    function getPile() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getPile");
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            var responseText = xhr.response;
+            var pilelist = jQuery.parseJSON(responseText);
+
+            for (i = 0; i < 5; i++) {
+                if (pilelist[i] == 0) {
+                    continue;
+                } else {
+                    var j = i + 1;
+                    document.getElementById("leftCardsP" + j).innerHTML = pilelist[i];
+                }
+            }
+
+            document.getElementById("commonPile").innerHTML = pilelist[5];
+
+        }
+        xhr.send();
+    }
+
+
+    function getRound() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getRound");
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            var responseText = xhr.response;
+            document.getElementById("round").innerHTML = responseText;
+        }
+        xhr.send();
+    }
+
+
+    function getMessage() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getMessage");
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            var responseText = xhr.response;
+            document.getElementById("message").innerHTML = responseText;
+        }
+        xhr.send();
+    }
+
+
+
 
     function removeCard() {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/removeCard"); // Request type and URL
@@ -225,7 +795,6 @@
         }
         xhr.send();
     }
-
 
 
 </script>
