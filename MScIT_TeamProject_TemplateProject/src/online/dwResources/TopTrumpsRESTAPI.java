@@ -47,6 +47,7 @@ public class TopTrumpsRESTAPI {
 	private ArrayList<Player> removedPlayer = new ArrayList<Player>();
 	private Game game;
 	private Card[] card = new Card[5];
+	private String message = "Hello!";
 
 
 	
@@ -158,7 +159,7 @@ public class TopTrumpsRESTAPI {
 			ArrayList<Integer> randChoose = new ArrayList<Integer>();
 			Random r = new Random();
 
-			System.out.println("Now turn is " + p.getName());
+			//System.out.println("Now turn is " + p.getName());
 			for (int k = 0; k < 5; k++) {
 				option.add(p.getDeck().peek().getValues(k));
 			}
@@ -188,10 +189,12 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/getMessage")
 	public String getMessage() throws IOException {
-		String message = "Hello!";
-		
+		Random r = new Random();
+		int rp;
 		if (round == 1){
-			message = "Choose Property!";
+			rp = r.nextInt(players.size());
+			p = players.get(rp);
+			message = "Now turn is " + p.getName() + ", time to Choose Property!";
 		}
 		
 		return message;
@@ -272,6 +275,7 @@ public class TopTrumpsRESTAPI {
 			}
 
 			//showWinCard(players.get(win).getDeck().peek(),i);
+			message = players.get(win).getName() + " Win! The Winning Card is " + "'" + players.get(win).getDeck().peek().getName() + "'";
 			p = players.get(win);
 		}
 		// Have two+ same property
@@ -281,8 +285,9 @@ public class TopTrumpsRESTAPI {
 				commonPile.add(players.get(k).getDeck().peek());
 				Collections.shuffle(commonPile);
 			}
-			System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
+			//System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
 			//showWinCard(players.get(win).getDeck().peek(),i);
+			message = "Draw!" ;
 			//numDraw++;
 		}
 	}

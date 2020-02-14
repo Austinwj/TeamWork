@@ -23,6 +23,44 @@
             margin: 0;
             padding: 0;
         }
+
+        .button {
+            border: 1px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            -webkit-transition-duration: 0.3s; /* Safari */
+            transition-duration: 0.3s;
+            cursor: pointer;
+        }
+
+
+        button[disabled] {
+            border: 0px solid white;
+            outline: 0px solid #363636;
+            cursor: not-allowed
+        }
+
+        .button1 {
+            background-color: #363636;
+            color: white;
+            border: 1px solid white;
+            outline: 1px solid #363636;
+        }
+
+        .button1:hover {
+            border: 1px solid cornflowerblue;
+            color: white;
+        }
+
+        .button1:focus {
+            position: relative;
+            border: 2px solid cornflowerblue;
+            top: 1px;
+            outline: 0
+        }
+
     </style>
 
 </head>
@@ -48,7 +86,7 @@
             </div>
         </a>
 
-        <a href="javascript:void(0);" onclick="">
+        <a href="http://localhost:7777/toptrumps/stats" onclick="window.close()">
             <div style="float: left; background-color: #363636; height: 20px; width: 30%; margin-left: 60px; text-align: center">
                 <div style="color: white; font-weight: bold; font-size: 15px; line-height: 20px;">
                     Game Statistics
@@ -69,7 +107,7 @@
     </div>
 
 
-    <div class="Player1" style="float: left; margin-top: 20px; width: 15%; ">
+    <div class="Player1" style="float: left; margin-top: 20px; width: 15%;">
 
         <div style="height: 20px; margin-top: 20px ">
             <div id="playerName"
@@ -93,21 +131,23 @@
             </div>
         </div>
 
-        <a href="javascript:void(0);" onclick="choose(0)">
-            <div style="background-color: #363636; height: 20px; margin-top: 5px">
-                <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <button id="button1" type="button" class="button button1" onclick="choose(0)"
+                    style="width: 100%; height: 20px;">
+                <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 18px;">
                     Size:
                 </div>
 
                 <div id="SizeP1"
-                     style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
+                     style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 18px;">
 
                 </div>
-            </div>
-        </a>
+            </button>
+        </div>
 
-        <a href="javascript:void(0);" onclick="choose(1)">
-            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <button id="button2" type="button" class="button button1" onclick="choose(1)"
+                    style="width: 100%; height: 20px;">
                 <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                     Speed:
                 </div>
@@ -116,11 +156,12 @@
                      style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
 
                 </div>
-            </div>
-        </a>
+            </button>
+        </div>
 
-        <a href="javascript:void(0);" onclick="choose(2)">
-            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <button id="button3" type="button" class="button button1" onclick="choose(2)"
+                    style="width: 100%; height: 20px;">
                 <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                     Range:
                 </div>
@@ -129,11 +170,13 @@
                      style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
 
                 </div>
-            </div>
-        </a>
+            </button>
+        </div>
 
-        <a href="javascript:void(0);" onclick="choose(3)">
-            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <button id="button4" type="button" class="button button1" onclick="choose(3)"
+                    style="width: 100%; height: 20px;">
                 <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                     Firepower:
                 </div>
@@ -142,11 +185,13 @@
                      style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
 
                 </div>
-            </div>
-        </a>
+            </button>
+        </div>
 
-        <a href="javascript:void(0);" onclick="choose(4)">
-            <div style="background-color: #363636; height: 20px; margin-top: 5px">
+
+        <div style="background-color: #363636; height: 20px; margin-top: 5px">
+            <button id="button5" type="button" class="button button1" onclick="choose(4)"
+                    style="width: 100%; height: 20px;">
                 <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
                     Cargo:
                 </div>
@@ -155,9 +200,8 @@
                      style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
 
                 </div>
-            </div>
-        </a>
-
+            </button>
+        </div>
 
         <div style="background-color: #363636; height: 20px; margin-top: 5px">
             <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
@@ -671,7 +715,6 @@
             getPile();
             getRound();
             getMessage();
-
         }
         xhr.send();
     }
@@ -690,9 +733,10 @@
             alert("CORS not supported");
         }
         //removeCard();
+        getMessage();
         getCard();
         getPile();
-        gerRound();
+        getRound();
         xhr.send();
 
     }
@@ -776,8 +820,6 @@
         }
         xhr.send();
     }
-
-
 
 
     function removeCard() {
