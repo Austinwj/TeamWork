@@ -75,8 +75,6 @@
 				window.location = "http://localhost:7777/toptrumps";
 			}	
 
-	function backHome() {
-		window.location = "http://localhost:7777/toptrumps";
 	}
 			
 			
