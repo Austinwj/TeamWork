@@ -49,6 +49,7 @@ public class TopTrumpsRESTAPI {
 	private Card[] card = new Card[5];
 	private String message = "Hello!";
 	private int winner;
+	private int roundWinner;
 
 
 	
@@ -238,7 +239,20 @@ public class TopTrumpsRESTAPI {
 
 		return p.getName();
 	}
-	
+
+
+	@GET
+	@Path("/nextRound")
+	public String nextRound() throws IOException{
+		Random r = new Random();
+		int rp;
+		if (round == 1){
+			rp = r.nextInt(players.size());
+			p = players.get(rp);
+		}
+		message = "Now turn is " + p.getName() + ", time to Choose Property!";
+		return message;
+	}
 
 	@GET
 	@Path("/getCard")
@@ -254,6 +268,27 @@ public class TopTrumpsRESTAPI {
 		String list = oWriter.writeValueAsString(card);
 		return list;
 	}
+
+//	@GET
+//	@Path("/getCard")
+//	public String getCard() throws IOException {
+//		if (p1.getDeck().size() == 0) {
+//			return null;
+//		}
+//		else {
+//			String card = oWriter.writeValueAsString(p1.getDeck().peek());
+//			return card;
+//		}
+//	}
+
+
+	@GET
+	@Path("/getRoundWinner")
+	public int getRoundWinner() throws IOException {
+		return roundWinner;
+	}
+
+
 
 	@GET
 	@Path("/removeCard")
@@ -336,6 +371,7 @@ public class TopTrumpsRESTAPI {
 			}
 
 			//showWinCard(players.get(win).getDeck().peek(),i);
+			roundWinner = win;
 			message = players.get(win).getName() + " Win! The Winning Card is " + "'" + players.get(win).getDeck().peek().getName() + "'";
 			p = players.get(win);
 		}

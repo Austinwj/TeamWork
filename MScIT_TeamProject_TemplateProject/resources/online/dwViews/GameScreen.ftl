@@ -80,6 +80,44 @@
             outline: 0
         }
 
+        .button3 {
+            background-color: #363636;
+            color: white;
+            border: 1px solid white;
+            outline: 2px solid cornflowerblue;
+        }
+
+        .button3:hover {
+            border: 2px solid cornflowerblue;
+            color: white;
+        }
+
+        .button3:active {
+            position: relative;
+            border: 2px solid cornflowerblue;
+            top: 3px;
+            outline: 0
+        }
+
+        .button4 {
+            background-color: #363636;
+            color: white;
+            border: 2px solid white;
+            outline: 4px solid cornflowerblue;
+        }
+
+        .button4:hover {
+            border: 2px solid cornflowerblue;
+            color: white;
+        }
+
+        .button4:active {
+            position: relative;
+            border: 2px solid cornflowerblue;
+            top: 3px;
+            outline: 0
+        }
+
     </style>
 
 </head>
@@ -126,7 +164,7 @@
     </div>
 
 
-    <div class="Player1" style="float: left; margin-top: 20px; width: 15%;">
+    <div id="Player1" style="float: left; margin-top: 20px; width: 15%;">
 
         <div style="height: 20px; margin-top: 20px ">
             <div id="playerName"
@@ -229,14 +267,14 @@
 
             <div id="StatusP1"
                  style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Died!
+                Alive
             </div>
         </div>
 
     </div>
 
 
-    <div class="Player2" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
+    <div id="Player2" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
 
         <div style="height: 20px; margin-top: 20px ">
             <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -323,14 +361,14 @@
 
             <div id="StatusP2"
                  style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Died!
+                Alive
             </div>
         </div>
 
     </div>
 
 
-    <div class="Player3" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
+    <div id="Player3" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
 
         <div style="height: 20px; margin-top: 20px ">
             <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -417,14 +455,14 @@
 
             <div id="StatusP3"
                  style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Died!
+                Alive
             </div>
         </div>
 
     </div>
 
 
-    <div class="Player4" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
+    <div id="Player4" style="float: left; margin-left: 66px; margin-top: 20px; width: 15%; ">
 
         <div style="height: 20px; margin-top: 20px ">
             <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -511,14 +549,14 @@
 
             <div id="StatusP4"
                  style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Died!
+                Alive
             </div>
         </div>
 
     </div>
 
 
-    <div class="Player5" style="float: right; margin-left: 66px; margin-top: 20px; width: 15%; ">
+    <div id="Player5" style="float: right; margin-left: 66px; margin-top: 20px; width: 15%; ">
 
         <div style="height: 20px; margin-top: 20px ">
             <div style="float: left; color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -605,7 +643,7 @@
 
             <div id="StatusP5"
                  style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Died!
+                Alive
             </div>
         </div>
 
@@ -615,15 +653,23 @@
     <div class="message" style="float: left; margin-top: 20px; width: 100%;">
 
 
-        <div style="float: left; height: 20px; margin-top: 20px; width: 10%; margin-left: 30px">
-            <button id="buttonR" type="button" class="button button2" onclick="choose(5)"
+        <div style="float: left; height: 20px; margin-top: 20px; width: 10%; margin-left: 10px">
+            <button id="buttonSR" type="button" class="button button2" onclick="choose(5)"
+                    style="width: 100%; height: 20px; line-height: 15px">
+                Show Result
+            </button>
+
+        </div>
+
+        <div style="float: left; height: 20px; margin-top: 20px; width: 10%; margin-left: 20px">
+            <button id="buttonNR" type="button" class="button button3" onclick="nextRound()"
                     style="width: 100%; height: 20px; line-height: 15px">
                 Next Round
             </button>
 
         </div>
 
-        <div style="float: left; height: 20px; margin-top: 20px; width: 40%; margin-left: 120px">
+        <div style="float: left; height: 20px; margin-top: 20px; width: 40%; margin-left: 50px">
             <div id="message"
                  style="float: left; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 100%; text-align: center;">
                 Hello!
@@ -669,6 +715,7 @@
         // --------------------------------------------------------------------------
         button1Status(0);
         button2Status(0);
+        button3Status(0);
 
     }
 
@@ -727,12 +774,27 @@
 
     function button2Status(x) {
         if (x == 0){
-            $('#buttonR').attr("disabled",true);
+            $('#buttonSR').attr("disabled",true);
         }
         else {
-            $('#buttonR').attr("disabled",false);
+            $('#buttonSR').attr("disabled",false);
         }
     }
+
+    function button3Status(x) {
+        if (x == 0){
+            $('#buttonNR').attr("disabled",true);
+        }
+        else {
+            $('#buttonNR').attr("disabled",false);
+        }
+    }
+
+
+
+    var list = undefined;
+    var aiNum;
+    var round;
 
 
     function startGame() {
@@ -743,6 +805,14 @@
         } else if (num >= "1" && num <= "4") {
             alert("Game Start!");
             addPlayer(num);
+            aiNum = num;
+            button1Status(0);
+            button2Status(0);
+            button3Status(1);
+            $('#buttonNR').html("First Round");
+            $('#buttonNR').removeClass("button button3");
+            $('#buttonNR').addClass("button button4");
+
         } else if (num < "1") {
             alert("At least one AI player!")
             window.opener.location.reload();
@@ -754,7 +824,6 @@
 
     // Add AI function
     // This calls the helloJSONList REST method from TopTrumpsRESTAPI
-    var list = undefined;
 
     function addPlayer(aiNum) {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/addPlayer?Number=" + aiNum); // Request type and URL
@@ -762,11 +831,32 @@
             alert("CORS not supported");
         }
         xhr.onload = function (e) {
+            getCard();
+        };
+        xhr.send();
+    }
+
+    function nextRound() {
+        $('#buttonNR').removeClass("button button4");
+        $('#buttonNR').addClass("button button3");
+        $('#buttonNR').html("Next Round");
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/nextRound"); // Request type and URL
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            //var responseText = xhr.response;
+            //document.getElementById("message").innerHTML = responseText;
+            getRound();
+            getPile();
             getPlayer();
             getCard();
-            getPile();
+            printP1Card();
             getMessage();
-        };
+
+            button2Status(1);
+            button3Status(0);
+        }
         xhr.send();
     }
 
@@ -778,29 +868,25 @@
         }
         xhr.onload = function (e) {
             var responseText = xhr.response;
-            if (responseText === "Human Player"){
+            if (responseText == "Human Player") {
                 button1Status(1);
                 button2Status(0);
+                button3Status(0);
                 //document.getElementById("message").innerHTML = "Now is your turn! Choose a Property!";
-            }
-            else {
+            } else {
                 button1Status(0);
                 button2Status(1);
+                button3Status(0);
                 //document.getElementById("message").innerHTML = "Now turn is " + responseText + ", Press Next Round to go on!";
             }
+
+            setBorder(responseText);
+
         }
         xhr.send();
 
-
     }
 
-    function drawCard() {
-        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/drawCard"); // Request type and URL
-        if (!xhr) {
-            alert("CORS not supported");
-        }
-        xhr.send();
-    }
 
     function choose(num) {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/choose?Number=" + num); // Request type and URL
@@ -809,16 +895,40 @@
         }
         xhr.onload = function (e) {
             getWinner();
-            getPlayer();
+            getRoundWinner();
             getPile();
             getRound();
             getMessage();
             getCard();
+            printAllCard();
+
+            button1Status(0);
+            button2Status(0);
+            button3Status(1);
         };
 
         xhr.send();
 
     }
+
+    function setBorder(x) {
+        for (var i = 0; i < 5; i++) {
+            var j = i + 1;
+            if (x == "Human Player") {
+                document.getElementById("Player1").style.border = "2px solid white";
+                document.getElementById("Player1").style.outline = "2px solid goldenrod";
+            } else if (x == "AI Player " + i) {
+                document.getElementById("Player" + j).style.border = "2px solid white";
+                document.getElementById("Player" + j).style.outline = "2px solid goldenrod";
+
+            } else {
+                document.getElementById("Player" + j).style.border = "2px solid white";
+                document.getElementById("Player" + j).style.outline = "2px solid white";
+            }
+        }
+
+    }
+
 
     function getCard() {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getCard");
@@ -828,33 +938,69 @@
         xhr.onload = function (e) {
             var responseText = xhr.response;
             list = jQuery.parseJSON(responseText);
-
-            for (i = 0; i < 5; i++) {
-                var j = i + 1;
-                if (list[i] == null) {
-                    document.getElementById("CardNameP" + j).innerHTML = "";
-                    document.getElementById("SizeP" + j).innerHTML = "";
-                    document.getElementById("SpeedP" + j).innerHTML = "";
-                    document.getElementById("RangeP" + j).innerHTML = "";
-                    document.getElementById("FirepowerP" + j).innerHTML = "";
-                    document.getElementById("CargoP" + j).innerHTML = "";
-                    document.getElementById("StatusP" + j).innerHTML = "Died!";
-                    continue;
-                } else {
-                    document.getElementById("CardNameP" + j).innerHTML = list[i].name;
-                    document.getElementById("SizeP" + j).innerHTML = list[i].size;
-                    document.getElementById("SpeedP" + j).innerHTML = list[i].speed;
-                    document.getElementById("RangeP" + j).innerHTML = list[i].range;
-                    document.getElementById("FirepowerP" + j).innerHTML = list[i].firepower;
-                    document.getElementById("CargoP" + j).innerHTML = list[i].cargo;
-                    document.getElementById("StatusP" + j).innerHTML = "Alive";
-                }
-
-            }
-
         }
+
+
         xhr.send();
     }
+
+    function printP1Card() {
+        for (i = 0; i < 5; i++) {
+            var j = i + 1;
+            if (list[i] == null) {
+                document.getElementById("CardNameP" + j).innerHTML = "";
+                document.getElementById("SizeP" + j).innerHTML = "";
+                document.getElementById("SpeedP" + j).innerHTML = "";
+                document.getElementById("RangeP" + j).innerHTML = "";
+                document.getElementById("FirepowerP" + j).innerHTML = "";
+                document.getElementById("CargoP" + j).innerHTML = "";
+                document.getElementById("StatusP" + j).innerHTML = "Died!";
+            }
+            else{
+                document.getElementById("CardNameP" + j).innerHTML = list[i].name;
+                document.getElementById("SizeP" + j).innerHTML = list[i].size;
+                document.getElementById("SpeedP" + j).innerHTML = list[i].speed;
+                document.getElementById("RangeP" + j).innerHTML = list[i].range;
+                document.getElementById("FirepowerP" + j).innerHTML = list[i].firepower;
+                document.getElementById("CargoP" + j).innerHTML = list[i].cargo;
+                document.getElementById("StatusP" + j).innerHTML = "Alive";
+            }
+        }
+
+        for (i = 2; i < 6; i++) {
+            $('#CardNameP'+i).empty();
+            $('#SizeP'+i).empty();
+            $('#SpeedP'+i).empty();
+            $('#RangeP'+i).empty();
+            $('#FirepowerP'+i).empty();
+            $('#CargoP'+i).empty();
+        }
+    }
+
+    function printAllCard() {
+        for (i = 0; i < 5; i++) {
+            var j = i + 1;
+            if (list[i] == null) {
+                document.getElementById("CardNameP" + j).innerHTML = "";
+                document.getElementById("SizeP" + j).innerHTML = "";
+                document.getElementById("SpeedP" + j).innerHTML = "";
+                document.getElementById("RangeP" + j).innerHTML = "";
+                document.getElementById("FirepowerP" + j).innerHTML = "";
+                document.getElementById("CargoP" + j).innerHTML = "";
+                document.getElementById("StatusP" + j).innerHTML = "Died!";
+            }
+            else{
+                document.getElementById("CardNameP" + j).innerHTML = list[i].name;
+                document.getElementById("SizeP" + j).innerHTML = list[i].size;
+                document.getElementById("SpeedP" + j).innerHTML = list[i].speed;
+                document.getElementById("RangeP" + j).innerHTML = list[i].range;
+                document.getElementById("FirepowerP" + j).innerHTML = list[i].firepower;
+                document.getElementById("CargoP" + j).innerHTML = list[i].cargo;
+                document.getElementById("StatusP" + j).innerHTML = "Alive";
+            }
+        }
+    }
+
 
 
     function getPile() {
@@ -890,6 +1036,7 @@
         xhr.onload = function (e) {
             var responseText = xhr.response;
             document.getElementById("round").innerHTML = responseText;
+            round = responseText;
         }
         xhr.send();
     }
@@ -907,6 +1054,28 @@
         xhr.send();
     }
 
+    function getRoundWinner() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getRoundWinner");
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.onload = function (e) {
+            var responseText = xhr.response;
+            for (var i = 0; i < 4; i++) {
+                var j = i + 1;
+                if (responseText == i) {
+                    document.getElementById("Player" + j).style.border = "2px solid white";
+                    document.getElementById("Player" + j).style.outline = "2px solid goldenrod";
+                } else {
+                    document.getElementById("Player" + j).style.border = "2px solid white";
+                    document.getElementById("Player" + j).style.outline = "2px solid white";
+                }
+            }
+        }
+        xhr.send();
+    }
+
+
     function getWinner() {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getWinner");
         if (!xhr) {
@@ -917,6 +1086,7 @@
             if (responseText == 1){
                 button1Status(0);
                 button2Status(0);
+                button3Status(0);
             }
         }
         xhr.send();
