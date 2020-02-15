@@ -15,6 +15,7 @@ public class Database {
 	private ResultSet rs;
 	private Connection con = null;
 	int winner;
+
 	public Database(){
 
 		this.logLink = "jdbc:postgresql://52.24.215.108:5432/AtlusTech";
@@ -81,6 +82,8 @@ public class Database {
 		}
 	}
 	
+	
+//	Number of games played overall
 	public int getNumOfGames()  {
 		int num = 0;
 		try {
@@ -98,6 +101,8 @@ public class Database {
 		
 	}
 	
+	
+//	How many times the human has won 
 	public int getNumOfUserWins() {
 		int num = 0;
 		try {
@@ -115,6 +120,8 @@ public class Database {
 		
 	}
 	
+	
+//	How many times the computer has won 
 	public int getNumOfAIWins() {
 		int num = 0;
 		try {
@@ -132,6 +139,8 @@ public class Database {
 		
 	}
 	
+	
+//	The average number of draws  
 	public double getAvgNumOfDw() {
 		double avgDraws = 0.0;
 		try {
@@ -145,10 +154,11 @@ public class Database {
 			System.err.println("Error to get average number of draws!");
 			e.printStackTrace();			
 		}
-		return avgDraws;
-		
+		return avgDraws;	
 	}
 	
+	
+//	The largest number of rounds played in a single game  
 	public int getLongestRuond() {
 		int num = 0;
 		try {
@@ -165,11 +175,24 @@ public class Database {
 		
 	}
 
-	public void uploadRoundRecord() {
-		
-	}
 	
+	// updata  rounds  each player won in one game
+	public void uploadRoundData(int GAME,int PLAYERID,int numberofwinround) {
+		try {
+			Connection c = getConnection();
+			PreparedStatement create = c.prepareStatement(
+					"INSERT INTO roundrecord(GAME,playerorwinnerid,numberofwinround) "
+					+ "values('"+GAME+"','"+PLAYERID+"','"+numberofwinround+"')");
+
+			create.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();;
+		}
+}	
 	
+//	update draws,winner and the number of rounds in one game
 	public void uploadGameRecord(int GAME, int DRAWS, int roundCount, int WINNER) {
 		try {
 			Connection c = getConnection();
@@ -185,6 +208,7 @@ public class Database {
 		}
 	}
 	
+//	Show history record
 	public void showRecord() {
 		System.out.println("Game statistics: ");
 		System.out.println("Number of Games: " + getNumOfGames());
@@ -195,5 +219,19 @@ public class Database {
 		closeConnection();
 	}
 			
+//	Clean the datebase when exit game	
+	public void dropDatabase() {
+		try {
+			Connection c = getConnection();
+			PreparedStatement create = c.prepareStatement(
+					"DROP TABLE roundrecord,gamerecord,player;" );
+			create.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();;
+		}
+	}
 }
+
 

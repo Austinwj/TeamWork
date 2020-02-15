@@ -9,8 +9,11 @@ public class Game {
 
     // Game statistics
     private int numGame;
-    private int aiWin;
     private int humanWin;
+    private int ai1Win;
+    private int ai2Win;
+	private int ai3Win;
+    private int ai4Win;
     private int winner; // = 0 means Human win, = 1 means Ai win
     private int numDraw;
     private int avgDraw;
@@ -78,11 +81,11 @@ public class Game {
                 System.out.println(players.get(0).getName() + " Win!");
 
                 if (players.get(0).getName() == p1.getName()){
-                    humanWin++;
+//                    humanWin++;
                     winner = 0;
                 }
                 else {
-                    aiWin++;
+//                    aiWin++;
                     winner = 1;
                 }
 
@@ -299,6 +302,21 @@ public class Game {
 
             showWinCard(players.get(win).getDeck().peek(),i);
             p = players.get(win);
+            if(players.get(win).getName().equals(p1Name)) {
+            	humanWin++;
+            }
+            if(players.get(win).getName().equals("AI Player 1")){
+            	ai1Win++;
+            }
+            if(players.get(win).getName().equals("AI Player 2")){
+            	ai2Win++;
+            }
+            if(players.get(win).getName().equals("AI Player 3")){
+            	ai3Win++;
+            }
+            if(players.get(win).getName().equals("AI Player 4")){
+            	ai4Win++;
+            }   
         }
         // Have two+ same property
         else{
@@ -336,10 +354,29 @@ public class Game {
     public int getNumGame() {
         return numGame;
     }
+    
+	public int getAiNum() {
+		return aiNum;
+	}
+	
+    public int getAi1Win() {
+		return ai1Win;
+	}
 
-    public int getAiWin() {
-        return aiWin;
-    }
+
+	public int getAi2Win() {
+		return ai2Win;
+	}
+
+
+	public int getAi3Win() {
+		return ai3Win;
+	}
+
+
+	public int getAi4Win() {
+		return ai4Win;
+	}
 
     public int getHumanWin() {
         return humanWin;
@@ -347,6 +384,14 @@ public class Game {
 
     public int getWinner() {
         return winner;
+    }
+    
+    public void resetGetter() {
+    	humanWin =0;
+    	ai1Win =0;
+    	ai2Win =0;
+    	ai3Win =0;
+    	ai4Win =0;
     }
 
     public int getAvgDraw() {
