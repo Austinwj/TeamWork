@@ -61,9 +61,7 @@ public class TopTrumpsRESTAPI {
 	private int ai4Win;
 	private int winner; // = 0 means Human win, = 1 means Ai win
 	private int numDraw;
-	private int avgDraw;
-	private int largestRound;
-	private ArrayList<Integer> roundCount = new ArrayList<Integer>();
+
 
 
 	
@@ -230,21 +228,20 @@ public class TopTrumpsRESTAPI {
 					}
 					if(players.get(c).getName().equals("AI Player 2")){
 						ai2Win++;
-						winner = 1;
+						winner = 2;
 					}
 					if(players.get(c).getName().equals("AI Player 3")){
 						ai3Win++;
-						winner = 1;
+						winner = 3;
 					}
 					if(players.get(c).getName().equals("AI Player 4")){
 						ai4Win++;
-						winner = 1;
+						winner = 4;
 					}
 
 					numGame++;
-					roundCount.add(round);
 
-					db.uploadGameRecord(getNumGame(), getAvgDraw(), getLargestRound(), getWinner());
+					db.uploadGameRecord(getNumGame(), getNumDraw(), getRound(), getWinner());
 
 					if(getAiNum()==4) {
 						db.uploadRoundData(getNumGame(), 0, getHumanWin());
@@ -504,15 +501,15 @@ public class TopTrumpsRESTAPI {
 	}
 
 
-	public int getNumGame() {
-		return numGame;
-	}
-
+    public int getNumGame() {
+        return numGame;
+    }
+    
 	public int getAiNum() {
 		return aiNum;
 	}
-
-	public int getAi1Win() {
+	
+    public int getAi1Win() {
 		return ai1Win;
 	}
 
@@ -531,39 +528,28 @@ public class TopTrumpsRESTAPI {
 		return ai4Win;
 	}
 
-	public int getHumanWin() {
-		return humanWin;
+    public int getHumanWin() {
+        return humanWin;
+    }
+
+    public int getWinner() {
+        return winner;
+    }
+	
+    public int getNumDraw() {
+		return numDraw;
 	}
 
-	public int getWinner() {
-		return winner;
-	}
+     
+    public void resetGetter() {
+    	round = 1;
+    	humanWin =0;
+    	ai1Win =0;
+    	ai2Win =0;
+    	ai3Win =0;
+    	ai4Win =0;
+    }
 
-	public void resetGetter() {
-		humanWin =0;
-		ai1Win =0;
-		ai2Win =0;
-		ai3Win =0;
-		ai4Win =0;
-	}
-
-	public int getAvgDraw() {
-		if (numGame == 0){
-			avgDraw = 0;
-			return avgDraw;
-		}
-		avgDraw = Math.round(numDraw / numGame);
-		return avgDraw;
-	}
-
-	public int getLargestRound() {
-		if (numGame == 0){
-			largestRound = 0;
-			return largestRound;
-		}
-		largestRound = Collections.max(roundCount);
-		return largestRound;
-	}
 	
 	@GET
 	@Path("/helloJSONList")
