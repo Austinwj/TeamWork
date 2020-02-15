@@ -219,7 +219,7 @@ public class Database {
 		closeConnection();
 	}
 			
-//	Clean the datebase when exit game	
+//	Clean the database when exit game	
 	public void dropDatabase() {
 		try {
 			Connection c = getConnection();
