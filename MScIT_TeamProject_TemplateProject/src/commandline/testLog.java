@@ -21,9 +21,9 @@ public class testLog {
 	}
 
 
-	public void logDeck(Deck deck) {
+	public void Deck(Deck deck) {
 
-		writeToLog.write("The contents of the deck is as follows:\r\n\r\n");
+		writeToLog.write("The contents of the deck have been followed:\r\n\r\n");
 		Stack<Card> deckOfCards = deck.getStack();
 
 		for (int i = 0; i < deckOfCards.size(); i++) {
@@ -31,6 +31,11 @@ public class testLog {
 			writeToLog.write(card + "\r\n\r\n");
 		}
 
+	}
+	
+	public void Shuffle(Deck deck) {
+		writeToLog.write("The cards have been shuffled.\r\n");
+		Deck(deck);
 	}
 	
 
@@ -79,30 +84,25 @@ public class testLog {
 		}
 	}
 
-	public void categoryChosen(ArrayList<Player> players) {
+	public void categoryPoRd(ArrayList<Player> players) {
 			
 		for (int i = 0; i < players.size(); i++) {
 			String name = players.get(i).getName();
 			int value = players.get(i).getSelectedValue();
 			writeToLog.write(name + "'s" + "category" + "=" + value + "\r\n");
-
 		}
+		writeToLog.write("Post Round Decks:\r\n\r\n");
+		playerDecks(players);
 	}
 
 
 
-	public void logRoundWinner(Player roundWinner) {
-
-		String roundWin = roundWinner.getName();
-		writeToLog.write("\r\nThe winner of the round is " + roundWin + " !\r\n");
-
-	}
-
-
-	public void logGameWinner(Player gameWinner) {
+	public void GameWinner(Player gameWinner, Player roundWinner) {
 
 		String gameWin = gameWinner.getName();
+		String roundWin = roundWinner.getName();
 		writeToLog.write("\r\nThe winner of the game is " + gameWin + " !!!\r\n");
+		writeToLog.write("\r\nThe winner of the round is " + roundWin + " !\r\n");
 
 	}
 
