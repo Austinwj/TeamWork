@@ -40,7 +40,7 @@ public class TopTrumpsCLIApplication {
 
 				if (input == 1) {	
 					game.play();
-					db.uploadGameRecord(game.getNumGame(), game.getAvgDraw(), game.getLargestRound(), game.getWinner());
+					db.uploadGameRecord(game.getNumGame(), game.getNumDraw(), game.getRound(), game.getWinner());
 					
 					if(game.getAiNum()==4) {
 						db.uploadRoundData(game.getNumGame(), 0, game.getHumanWin());

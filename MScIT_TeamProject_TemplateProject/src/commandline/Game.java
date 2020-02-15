@@ -9,17 +9,14 @@ public class Game {
 
     // Game statistics
     private int numGame;
+//  humanWin,ai1Win,ai2Win,ai3Win and ai4Win are rounds each player won in one game
     private int humanWin;
     private int ai1Win;
     private int ai2Win;
 	private int ai3Win;
     private int ai4Win;
-    private int winner; // = 0 means Human win, = 1 means Ai win
+    private int winner; // = 0 means Human win, = 1-4 means Ai 1-4 win
     private int numDraw;
-    private int avgDraw;
-    private int largestRound;
-    private ArrayList<Integer> roundCount = new ArrayList<Integer>();
-
     private ArrayList<Player> players = new ArrayList<Player>();
     private Stack<Card> commonPile = new Stack<Card>();
     private int aiNum;
@@ -80,19 +77,23 @@ public class Game {
             if (players.size() == 1){
                 System.out.println(players.get(0).getName() + " Win!");
 
-                if (players.get(0).getName() == p1.getName()){
-//                    humanWin++;
+                if (players.get(0).getName() == p1.getName()){  
                     winner = 0;
                 }
-                else {
-//                    aiWin++;
+                if (players.get(0).getName().equals("AI Player 1")){   
                     winner = 1;
                 }
-
+                if (players.get(0).getName().equals("AI Player 2")){   
+                    winner = 2;
+                }
+                if (players.get(0).getName().equals("AI Player 3")){   
+                    winner = 3;
+                }
+                if (players.get(0).getName().equals("AI Player 4")){   
+                    winner = 4;
+                }
                 // Add number of games and Reset round
-                numGame++;
-                roundCount.add(round);
-                round = 1;
+                numGame++;      
                 break;
             }
 
@@ -385,8 +386,17 @@ public class Game {
     public int getWinner() {
         return winner;
     }
-    
+	
+    public int getNumDraw() {
+		return numDraw;
+	}
+
+	public int getRound() {
+		return round;
+	}	
+     
     public void resetGetter() {
+    	round = 1;
     	humanWin =0;
     	ai1Win =0;
     	ai2Win =0;
@@ -394,21 +404,4 @@ public class Game {
     	ai4Win =0;
     }
 
-    public int getAvgDraw() {
-        if (numGame == 0){
-            avgDraw = 0;
-            return avgDraw;
-        }
-        avgDraw = Math.round(numDraw / numGame);
-        return avgDraw;
-    }
-
-    public int getLargestRound() {
-        if (numGame == 0){
-            largestRound = 0;
-            return largestRound;
-        }
-        largestRound = Collections.max(roundCount);
-        return largestRound;
-    }
 }
