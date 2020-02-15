@@ -59,19 +59,27 @@
 		
 			// Method that is called on page load
 			function initalize() {
-			
-				// --------------------------------------------------------------------------
-				// You can call other methods you want to run when the page first loads here
-				// --------------------------------------------------------------------------
 				
-				// For example, lets call our sample methods
+				historyDB();
 				
 			}
 			
 			// -----------------------------------------
 			// Add your other Javascript methods Here
 			// -----------------------------------------
-		
+			function playGame() {
+				window.location = "http://localhost:7777/toptrumps/game";
+			}
+				
+			function backHome() {
+				window.location = "http://localhost:7777/toptrumps";
+			}	
+
+	function backHome() {
+		window.location = "http://localhost:7777/toptrumps";
+	}
+			
+			
 			// This is a reusable method for creating a CORS request. Do not edit this.
 			function createCORSRequest(method, url) {
   				var xhr = new XMLHttpRequest();
@@ -101,8 +109,24 @@
 		
 		<!-- Here are examples of how to call REST API Methods -->
 		<script type="text/javascript">
-
-
+		
+			function historyDB() {
+				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/historyDB");
+				
+				if (!xhr) {
+					alert("CORS not supported");
+				}
+				
+				xhr.onload = function(e) {
+					var responseText = xhr.response; $("#numOfGames").text(responseText);
+					var responseText = xhr.response; $("#humanWins").text(responseText);
+					var responseText = xhr.response; $("#AIWins").text(responseText);
+					var responseText = xhr.response; $("#avgDraw").text(responseText);
+					var responseText = xhr.response; $("#longestGame").text(responseText);
+				};
+				
+				xhr.send();	
+			}
 		</script>
 		
 		</body>
