@@ -27,8 +27,8 @@ public class TopTrumpsCLIApplication {
 			// Add your game logic here based on the requirements
 			// ----------------------------------------------------
 			Game game = new Game();
-			//Database db = new Database();
-
+			Database db = new Database();	
+			db.createTable();
 			while (true) {
 				System.out.println("Do you want to see past results or play a game?");
 				System.out.println("1: Play Game");
@@ -38,26 +38,50 @@ public class TopTrumpsCLIApplication {
 				Scanner sc = new Scanner(System.in);
 				Integer input = sc.nextInt();
 
-				if (input == 1) {
+				if (input == 1) {	
 					game.play();
-					//db.createTable();
-					//db.uploadGameRecord(game.getNumGame(), game.getAvgDraw(), game.getLargestRound(), game.getWinner());
+					db.uploadGameRecord(game.getNumGame(), game.getAvgDraw(), game.getLargestRound(), game.getWinner());
+					
+					if(game.getAiNum()==4) {
+						db.uploadRoundData(game.getNumGame(), 0, game.getHumanWin());
+						db.uploadRoundData(game.getNumGame(), 1, game.getAi1Win());
+						db.uploadRoundData(game.getNumGame(), 2, game.getAi2Win());
+						db.uploadRoundData(game.getNumGame(), 3, game.getAi3Win());
+						db.uploadRoundData(game.getNumGame(), 4, game.getAi4Win());
+					}
+					if(game.getAiNum()==3) {
+						db.uploadRoundData(game.getNumGame(), 0, game.getHumanWin());
+						db.uploadRoundData(game.getNumGame(), 1, game.getAi1Win());
+						db.uploadRoundData(game.getNumGame(), 2, game.getAi2Win());
+						db.uploadRoundData(game.getNumGame(), 3, game.getAi3Win());
+					}
+					if(game.getAiNum()==2) {
+						db.uploadRoundData(game.getNumGame(), 0, game.getHumanWin());
+						db.uploadRoundData(game.getNumGame(), 1, game.getAi1Win());
+						db.uploadRoundData(game.getNumGame(), 2, game.getAi2Win());
+					}
+					if(game.getAiNum()==1) {
+						db.uploadRoundData(game.getNumGame(), 0, game.getHumanWin());
+						db.uploadRoundData(game.getNumGame(), 1, game.getAi1Win());
+						}
+					game.resetGetter();
 					System.out.println("Ends!");
 
 				} else if (input == 2) {
 
-					//db.showRecord();
-					//db.closeConnection();
+					db.showRecord();
+					db.closeConnection();
 
-					System.out.println("Number of games played: " + game.getNumGame());
-					System.out.println("Times that AI player won: " + game.getAiWin());
-					System.out.println("Times that Human player won: " + game.getHumanWin());
-					System.out.println("The average number of draws: " + game.getAvgDraw());
-					System.out.println("The largest number of rounds played in a single game : " + game.getLargestRound());
-					System.out.println("------------------");
+//					System.out.println("Number of games played: " + game.getNumGame());
+//					System.out.println("Times that AI player won: " + game.getAiWin());
+//					System.out.println("Times that Human player won: " + game.getHumanWin());
+//					System.out.println("The average number of draws: " + game.getAvgDraw());
+//					System.out.println("The largest number of rounds played in a single game : " + game.getLargestRound());
+//					System.out.println("------------------");
 
 			} else if (input == 3) {
 					System.out.println("Exit!");
+					db.dropDatabase();
 					userWantsToQuit = true;
 					System.exit(1);
 				}
