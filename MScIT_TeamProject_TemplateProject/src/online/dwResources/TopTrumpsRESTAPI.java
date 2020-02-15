@@ -45,11 +45,25 @@ public class TopTrumpsRESTAPI {
 	private Player p;
 	private Player p1;
 	private ArrayList<Player> removedPlayer = new ArrayList<Player>();
-	private Game game;
+	//private Game game;
 	private Card[] card = new Card[5];
 	private String message = "Hello!";
-	private int winner;
+	private int gameWinner;
 	private int roundWinner;
+	private Database db;
+
+	// Game statistics
+	private int numGame;
+	private int humanWin;
+	private int ai1Win;
+	private int ai2Win;
+	private int ai3Win;
+	private int ai4Win;
+	private int winner; // = 0 means Human win, = 1 means Ai win
+	private int numDraw;
+	private int avgDraw;
+	private int largestRound;
+	private ArrayList<Integer> roundCount = new ArrayList<Integer>();
 
 
 	
@@ -64,10 +78,11 @@ public class TopTrumpsRESTAPI {
 		// Add relevant initalization here
 		// ----------------------------------------------------
 
-		game = new Game();
+		//game = new Game();
 		deck = new Deck();
 		p1 = new Player("Human Player");
-
+		db = new Database();
+		db.createTable();
 
 	}
 
@@ -78,7 +93,7 @@ public class TopTrumpsRESTAPI {
 	@Path("/newGame")
 	public void newGame() {
 		// Reset
-		game = new Game();
+		//game = new Game();
 		deck = new Deck();
 		p1 = new Player("Human Player");
 	}
@@ -203,7 +218,57 @@ public class TopTrumpsRESTAPI {
 			for (int c = 0; c < players.size(); c++) {
 				if (players.get(c).getDeck().size() != 0){
 					message = "Winner is " + players.get(c).getName() + " !! Congratulations!";
-					winner = 1;
+					gameWinner = 1;
+
+					if(players.get(c).getName().equals("Human Player")) {
+						humanWin++;
+						winner = 0;
+					}
+					if(players.get(c).getName().equals("AI Player 1")){
+						ai1Win++;
+						winner = 1;
+					}
+					if(players.get(c).getName().equals("AI Player 2")){
+						ai2Win++;
+						winner = 1;
+					}
+					if(players.get(c).getName().equals("AI Player 3")){
+						ai3Win++;
+						winner = 1;
+					}
+					if(players.get(c).getName().equals("AI Player 4")){
+						ai4Win++;
+						winner = 1;
+					}
+
+					numGame++;
+					roundCount.add(round);
+
+					db.uploadGameRecord(getNumGame(), getAvgDraw(), getLargestRound(), getWinner());
+
+					if(getAiNum()==4) {
+						db.uploadRoundData(getNumGame(), 0, getHumanWin());
+						db.uploadRoundData(getNumGame(), 1, getAi1Win());
+						db.uploadRoundData(getNumGame(), 2, getAi2Win());
+						db.uploadRoundData(getNumGame(), 3, getAi3Win());
+						db.uploadRoundData(getNumGame(), 4, getAi4Win());
+					}
+					if(getAiNum()==3) {
+						db.uploadRoundData(getNumGame(), 0, getHumanWin());
+						db.uploadRoundData(getNumGame(), 1, getAi1Win());
+						db.uploadRoundData(getNumGame(), 2, getAi2Win());
+						db.uploadRoundData(getNumGame(), 3, getAi3Win());
+					}
+					if(getAiNum()==2) {
+						db.uploadRoundData(getNumGame(), 0, getHumanWin());
+						db.uploadRoundData(getNumGame(), 1, getAi1Win());
+						db.uploadRoundData(getNumGame(), 2, getAi2Win());
+					}
+					if(getAiNum()==1) {
+						db.uploadRoundData(getNumGame(), 0, getHumanWin());
+						db.uploadRoundData(getNumGame(), 1, getAi1Win());
+					}
+					resetGetter();
 				}
 			}
 		}
@@ -219,9 +284,9 @@ public class TopTrumpsRESTAPI {
 	}
 
 	@GET
-	@Path("/getWinner")
-	public int getWinner() throws IOException{
-		return winner;
+	@Path("/getGameWinner")
+	public int getGameWinner() throws IOException{
+		return gameWinner;
 	}
 
 
@@ -269,17 +334,6 @@ public class TopTrumpsRESTAPI {
 		return list;
 	}
 
-//	@GET
-//	@Path("/getCard")
-//	public String getCard() throws IOException {
-//		if (p1.getDeck().size() == 0) {
-//			return null;
-//		}
-//		else {
-//			String card = oWriter.writeValueAsString(p1.getDeck().peek());
-//			return card;
-//		}
-//	}
 
 
 	@GET
@@ -390,10 +444,9 @@ public class TopTrumpsRESTAPI {
 			//System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
 			//showWinCard(players.get(win).getDeck().peek(),i);
 			message = "Draw!" ;
-			//numDraw++;
+			numDraw++;
 		}
 	}
-
 
 	// Create deck for player
 	private void createDeck() {
@@ -436,6 +489,80 @@ public class TopTrumpsRESTAPI {
 
 
 		}
+	}
+
+
+	// Get Game Data
+
+
+	@GET
+	@Path("/getGameStatistics")
+	public void getGameStatistics(){
+		db.showRecord();
+		db.dropDatabase();
+		db.closeConnection();
+	}
+
+
+	public int getNumGame() {
+		return numGame;
+	}
+
+	public int getAiNum() {
+		return aiNum;
+	}
+
+	public int getAi1Win() {
+		return ai1Win;
+	}
+
+
+	public int getAi2Win() {
+		return ai2Win;
+	}
+
+
+	public int getAi3Win() {
+		return ai3Win;
+	}
+
+
+	public int getAi4Win() {
+		return ai4Win;
+	}
+
+	public int getHumanWin() {
+		return humanWin;
+	}
+
+	public int getWinner() {
+		return winner;
+	}
+
+	public void resetGetter() {
+		humanWin =0;
+		ai1Win =0;
+		ai2Win =0;
+		ai3Win =0;
+		ai4Win =0;
+	}
+
+	public int getAvgDraw() {
+		if (numGame == 0){
+			avgDraw = 0;
+			return avgDraw;
+		}
+		avgDraw = Math.round(numDraw / numGame);
+		return avgDraw;
+	}
+
+	public int getLargestRound() {
+		if (numGame == 0){
+			largestRound = 0;
+			return largestRound;
+		}
+		largestRound = Collections.max(roundCount);
+		return largestRound;
 	}
 	
 	@GET

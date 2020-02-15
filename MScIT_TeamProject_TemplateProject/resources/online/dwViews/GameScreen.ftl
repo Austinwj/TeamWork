@@ -143,7 +143,7 @@
             </div>
         </a>
 
-        <a href="http://localhost:7777/toptrumps/stats" onclick="window.close()">
+        <a href="http://localhost:7777/toptrumps/stats" onclick="getGameStatistics()">
             <div style="float: left; background-color: #363636; height: 20px; width: 30%; margin-left: 60px; text-align: center">
                 <div style="color: white; font-weight: bold; font-size: 15px; line-height: 20px;">
                     Game Statistics
@@ -672,7 +672,7 @@
         <div style="float: left; height: 20px; margin-top: 20px; width: 40%; margin-left: 50px">
             <div id="message"
                  style="float: left; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 100%; text-align: center;">
-                Hello!
+                Hello! If you want to play, please select Start a New Game!
             </div>
 
         </div>
@@ -691,7 +691,7 @@
 
         <div style="float: right; height: 20px; margin-top: 20px; width: 10%;">
             <div id="round"
-                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 20%; text-align: center;">
+                 style="float: right; background-color:black; color: white; font-weight: bold; font-size: 15px;  line-height: 20px; width: 25%; text-align: center;">
                 0
             </div>
             <div style="float: right;  color: black; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -812,6 +812,8 @@
             $('#buttonNR').html("First Round");
             $('#buttonNR').removeClass("button button3");
             $('#buttonNR').addClass("button button4");
+            $('#message').html("<---- Press to Enter First Round");
+
 
         } else if (num < "1") {
             alert("At least one AI player!")
@@ -837,6 +839,8 @@
     }
 
     function nextRound() {
+        button2Status(1);
+        button3Status(0);
         $('#buttonNR').removeClass("button button4");
         $('#buttonNR').addClass("button button3");
         $('#buttonNR').html("Next Round");
@@ -853,9 +857,6 @@
             getCard();
             printP1Card();
             getMessage();
-
-            button2Status(1);
-            button3Status(0);
         }
         xhr.send();
     }
@@ -889,22 +890,21 @@
 
 
     function choose(num) {
+        button1Status(0);
+        button2Status(0);
+        button3Status(1);
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/choose?Number=" + num); // Request type and URL
         if (!xhr) {
             alert("CORS not supported");
         }
         xhr.onload = function (e) {
-            getWinner();
+            getGameWinner();
             getRoundWinner();
             getPile();
             getRound();
             getMessage();
             getCard();
             printAllCard();
-
-            button1Status(0);
-            button2Status(0);
-            button3Status(1);
         };
 
         xhr.send();
@@ -1076,8 +1076,8 @@
     }
 
 
-    function getWinner() {
-        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getWinner");
+    function getGameWinner() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getGameWinner");
         if (!xhr) {
             alert("CORS not supported");
         }
@@ -1103,6 +1103,14 @@
 
     function reset() {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/reset"); // Request type and URL
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.send();
+    }
+
+    function getGameStatistics() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getGameStatistics"); // Request type and URL
         if (!xhr) {
             alert("CORS not supported");
         }
