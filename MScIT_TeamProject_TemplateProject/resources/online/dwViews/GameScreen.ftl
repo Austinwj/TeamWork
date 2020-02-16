@@ -753,13 +753,6 @@
     // -----------------------------------------
     // Add your other Javascript methods Here
     // -----------------------------------------
-    function newGame() {
-        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/newGame");
-        if (!xhr) {
-            alert("CORS not supported");
-        }
-        xhr.send();
-    }
 
     function button1Status(x) {
         if (x == 0){

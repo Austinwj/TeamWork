@@ -45,8 +45,6 @@ public class TopTrumpsRESTAPI {
 	private Deck deck;
 	private Player p;
 	private Player p1;
-	private ArrayList<Player> removedPlayer = new ArrayList<Player>();
-	//private Game game;
 	private Card[] card = new Card[5];
 	private String message = "Hello!";
 	private int gameWinner;
@@ -83,7 +81,6 @@ public class TopTrumpsRESTAPI {
 		// Add relevant initalization here
 		// ----------------------------------------------------
 
-		//game = new Game();
 		deck = new Deck();
 		p1 = new Player("Human Player");
 		db = new Database();
@@ -95,15 +92,6 @@ public class TopTrumpsRESTAPI {
 	// ----------------------------------------------------
 	// Add relevant API methods here
 	// ----------------------------------------------------
-	@GET
-	@Path("/newGame")
-	public void newGame() {
-		// Reset
-		//game = new Game();
-		deck = new Deck();
-		p1 = new Player("Human Player");
-	}
-
 
 	@GET
 	@Path("/addPlayer")
@@ -140,34 +128,6 @@ public class TopTrumpsRESTAPI {
 		gameWinner = 0;
 	}
 
-
-	@GET
-	@Path("/drawCard")
-	// Print Round info and drew card
-	public void drawCard() {
-		Random r = new Random();
-		int rp;
-		if (round == 1){
-			rp = r.nextInt(players.size());
-			p = players.get(rp);
-		}
-
-//		System.out.println();
-//		System.out.println("Round " + round);
-//		System.out.println("Round " + round + ": Player have drawn their cards!");
-
-//		if (!p1.getDeck().empty()){
-//			System.out.println("You drew: " + "'" + p1.getDeck().peek().getName() + "'");
-
-//			for (int i = 0; i < 5 ; i++){
-//				String property = p1.getDeck().peek().properties[i];
-//				int value = p1.getDeck().peek().getValues(i);
-//				System.out.println("\t" + (i+1) + " >" + " " + property + ": " + value);
-//			}
-
-//			System.out.println("There are " + (p1.getDeck().size() - 1 ) + " cards left in your deck!");
-//		}
-	}
 
 
 	@GET
@@ -252,33 +212,6 @@ public class TopTrumpsRESTAPI {
 						ai4Win++;
 						winner = 1;
 					}
-
-
-					/*db.uploadGameRecord(getNumGame(), getNumDraw(), getRound(), getWinner());
-
-					if(getAiNum()==4) {
-						db.uploadRoundData(getNumGame(), 0, getHumanWin());
-						db.uploadRoundData(getNumGame(), 1, getAi1Win());
-						db.uploadRoundData(getNumGame(), 2, getAi2Win());
-						db.uploadRoundData(getNumGame(), 3, getAi3Win());
-						db.uploadRoundData(getNumGame(), 4, getAi4Win());
-					}
-					if(getAiNum()==3) {
-						db.uploadRoundData(getNumGame(), 0, getHumanWin());
-						db.uploadRoundData(getNumGame(), 1, getAi1Win());
-						db.uploadRoundData(getNumGame(), 2, getAi2Win());
-						db.uploadRoundData(getNumGame(), 3, getAi3Win());
-					}
-					if(getAiNum()==2) {
-						db.uploadRoundData(getNumGame(), 0, getHumanWin());
-						db.uploadRoundData(getNumGame(), 1, getAi1Win());
-						db.uploadRoundData(getNumGame(), 2, getAi2Win());
-					}
-					if(getAiNum()==1) {
-						db.uploadRoundData(getNumGame(), 0, getHumanWin());
-						db.uploadRoundData(getNumGame(), 1, getAi1Win());
-					}
-					resetGetter();*/
 				}
 			}
 		}
@@ -340,6 +273,7 @@ public class TopTrumpsRESTAPI {
 		message = "Now turn is " + p.getName() + ", time to Choose Property!";
 		return message;
 	}
+
 
 	@GET
 	@Path("/getCard")
@@ -470,6 +404,7 @@ public class TopTrumpsRESTAPI {
 		}
 	}
 
+
 	// Create deck for player
 	private void createDeck() {
 		Random r = new Random();
@@ -515,7 +450,6 @@ public class TopTrumpsRESTAPI {
 
 
 	// Get Game Data
-
 
 	@GET
 	@Path("/saveGameStatistics")
@@ -567,8 +501,6 @@ public class TopTrumpsRESTAPI {
 		statistics[4] = longestGame;
 
 		String statisticsList = oWriter.writeValueAsString(statistics);
-		//db.showRecord();
-		//db.closeConnection();
 		return statisticsList;
 	}
 

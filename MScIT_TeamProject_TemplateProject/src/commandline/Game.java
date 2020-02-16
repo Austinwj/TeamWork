@@ -96,37 +96,8 @@ public class Game {
                 numGame++;      
                 break;
             }
-
             drawCard();
-
         }
-
-
-        // --------Test-------
-        /*System.out.println(players.size());
-        System.out.println(deck.getStack().size());
-        for (Player player : players) {
-            System.out.println(player.getDeck().size());
-        }
-
-        System.out.println("----------");
-        for (int m = 0; m < players.get(0).getDeck().size() ; m++) {
-            System.out.print(players.get(0).getDeck().get(m).getName());
-            System.out.print(" ");
-        }
-        System.out.println("----------");
-
-        for (int m = 0; m < players.get(1).getDeck().size() ; m++) {
-            System.out.print(players.get(1).getDeck().get(m).getName());
-            System.out.print(" ");
-        }
-        System.out.println("----------");
-        for (int m = 0; m < players.get(2).getDeck().size() ; m++) {
-            System.out.print(players.get(2).getDeck().get(m).getName());
-            System.out.print(" ");
-        }*/
-
-
 
     }
 
