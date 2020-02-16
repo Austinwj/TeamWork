@@ -981,7 +981,13 @@
         }
 
         for (i = 2; i < 6; i++) {
-            $('#PictureP' + i).attr("src", "https://i.imgur.com/hfR9Orq.png");
+            var k = i - 1;
+            if (list[k] == null) {
+                $('#PictureP' + i).attr("src", "https://i.imgur.com/jzfwSpK.png");
+            }
+            else {
+                $('#PictureP' + i).attr("src", "https://i.imgur.com/hfR9Orq.png");
+            }
             $('#CardNameP'+i).empty();
             $('#SizeP'+i).empty();
             $('#SpeedP'+i).empty();
