@@ -27,7 +27,8 @@ public class TopTrumpsCLIApplication {
 			// Add your game logic here based on the requirements
 			// ----------------------------------------------------
 			Game game = new Game();
-			Database db = new Database();	
+			Database db = new Database();
+			db.dropDatabase();
 			db.createTable();
 			while (true) {
 				System.out.println("Do you want to see past results or play a game?");
@@ -74,7 +75,6 @@ public class TopTrumpsCLIApplication {
 
 			} else if (input == 3) {
 					System.out.println("Exit!");
-					db.dropDatabase();
 					userWantsToQuit = true;
 					System.exit(1);
 				}
