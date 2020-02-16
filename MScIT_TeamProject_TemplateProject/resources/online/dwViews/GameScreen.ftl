@@ -143,7 +143,7 @@
             </div>
         </a>
 
-        <a href="http://localhost:7777/toptrumps/stats" onclick="getGameStatistics()">
+        <a href="http://localhost:7777/toptrumps/stats" onclick="window.close()">
             <div style="float: left; background-color: #363636; height: 20px; width: 30%; margin-left: 60px; text-align: center">
                 <div style="color: white; font-weight: bold; font-size: 15px; line-height: 20px;">
                     Game Statistics
@@ -1087,6 +1087,7 @@
                 button1Status(0);
                 button2Status(0);
                 button3Status(0);
+                saveGameStatistics();
             }
         }
         xhr.send();
@@ -1109,13 +1110,14 @@
         xhr.send();
     }
 
-    function getGameStatistics() {
-        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/getGameStatistics"); // Request type and URL
+    function saveGameStatistics() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/saveGameStatistics"); // Request type and URL
         if (!xhr) {
             alert("CORS not supported");
         }
         xhr.send();
     }
+
 
 
 </script>

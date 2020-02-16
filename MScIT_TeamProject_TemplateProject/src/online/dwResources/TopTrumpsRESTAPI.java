@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import commandline.*;
 
 import online.configuration.TopTrumpsJSONConfiguration;
@@ -62,6 +63,13 @@ public class TopTrumpsRESTAPI {
 	private int winner; // = 0 means Human win, = 1-4 means Ai 1-4 win
 	private int numDraw;
 
+	// Saved statistics
+	private int numOfGames;
+	private int numOfAIWins;
+	private int numOfUserWins;
+	private int avgNumOfDraws;
+	private int longestGame;
+
 
 	
 	/**
@@ -79,6 +87,7 @@ public class TopTrumpsRESTAPI {
 		deck = new Deck();
 		p1 = new Player("Human Player");
 		db = new Database();
+		db.dropDatabase();
 		db.createTable();
 
 	}
@@ -128,6 +137,7 @@ public class TopTrumpsRESTAPI {
 		deck.getStack().clear();
 
 		round = 1;
+		gameWinner = 0;
 	}
 
 
@@ -240,7 +250,7 @@ public class TopTrumpsRESTAPI {
 
 					numGame++;
 
-					db.uploadGameRecord(getNumGame(), getNumDraw(), getRound(), getWinner());
+					/*db.uploadGameRecord(getNumGame(), getNumDraw(), getRound(), getWinner());
 
 					if(getAiNum()==4) {
 						db.uploadRoundData(getNumGame(), 0, getHumanWin());
@@ -264,7 +274,7 @@ public class TopTrumpsRESTAPI {
 						db.uploadRoundData(getNumGame(), 0, getHumanWin());
 						db.uploadRoundData(getNumGame(), 1, getAi1Win());
 					}
-					resetGetter();
+					resetGetter();*/
 				}
 			}
 		}
@@ -492,11 +502,58 @@ public class TopTrumpsRESTAPI {
 
 
 	@GET
-	@Path("/getGameStatistics")
-	public void getGameStatistics(){
-		db.showRecord();
-		db.dropDatabase();
-		db.closeConnection();
+	@Path("/saveGameStatistics")
+	public void saveGameStatistics() throws IOException {
+		db.uploadGameRecord(getNumGame(), getNumDraw(), getRound(), getWinner());
+
+		if(getAiNum()==4) {
+			db.uploadRoundData(getNumGame(), 0, getHumanWin());
+			db.uploadRoundData(getNumGame(), 1, getAi1Win());
+			db.uploadRoundData(getNumGame(), 2, getAi2Win());
+			db.uploadRoundData(getNumGame(), 3, getAi3Win());
+			db.uploadRoundData(getNumGame(), 4, getAi4Win());
+		}
+		if(getAiNum()==3) {
+			db.uploadRoundData(getNumGame(), 0, getHumanWin());
+			db.uploadRoundData(getNumGame(), 1, getAi1Win());
+			db.uploadRoundData(getNumGame(), 2, getAi2Win());
+			db.uploadRoundData(getNumGame(), 3, getAi3Win());
+		}
+		if(getAiNum()==2) {
+			db.uploadRoundData(getNumGame(), 0, getHumanWin());
+			db.uploadRoundData(getNumGame(), 1, getAi1Win());
+			db.uploadRoundData(getNumGame(), 2, getAi2Win());
+		}
+		if(getAiNum()==1) {
+			db.uploadRoundData(getNumGame(), 0, getHumanWin());
+			db.uploadRoundData(getNumGame(), 1, getAi1Win());
+		}
+		resetGetter();
+
+		numOfGames = db.getNumOfGames();
+		numOfAIWins = db.getNumOfAIWins();
+		numOfUserWins = db.getNumOfUserWins();
+		avgNumOfDraws = (int) db.getAvgNumOfDw();
+		longestGame = db.getLongestRuond();
+
+
+	}
+
+
+	@GET
+	@Path("/showGameStatistics")
+	public String showGameStatistics() throws IOException  {
+		int[] statistics = new int[5];
+		statistics[0] = numOfGames;
+		statistics[1] = numOfAIWins;
+		statistics[2] = numOfUserWins;
+		statistics[3] = avgNumOfDraws;
+		statistics[4] = longestGame;
+
+		String statisticsList = oWriter.writeValueAsString(statistics);
+		//db.showRecord();
+		//db.closeConnection();
+		return statisticsList;
 	}
 
 
