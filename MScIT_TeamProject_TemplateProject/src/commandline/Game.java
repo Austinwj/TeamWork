@@ -1,15 +1,12 @@
 package commandline;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 public class Game {
 
     // Game statistics
     private int numGame;
-//  humanWin,ai1Win,ai2Win,ai3Win and ai4Win are rounds each player won in one game
+    //  humanWin,ai1Win,ai2Win,ai3Win and ai4Win are rounds each player won in one game
     private int humanWin;
     private int ai1Win;
     private int ai2Win;
@@ -17,6 +14,8 @@ public class Game {
     private int ai4Win;
     private int winner; // = 0 means Human win, = 1-4 means Ai 1-4 win
     private int numDraw;
+
+
     private ArrayList<Player> players = new ArrayList<Player>();
     private Stack<Card> commonPile = new Stack<Card>();
     private int aiNum;
@@ -26,6 +25,7 @@ public class Game {
     private String p1Name;
     private Player p1;
     private ArrayList<Player> removedPlayer = new ArrayList<Player>();
+    private Log log = new Log();
     Scanner sc = new Scanner(System.in);
 
 
@@ -38,6 +38,13 @@ public class Game {
         // Add cards to card list
         deck = new Deck();
         deck.addCards();
+        log.writeDeck(deck);
+
+        deck.shuffle();
+        log.writeShuffle(deck);
+
+
+
 
 
         // First part of Game : Enter Name, Add Ai players
@@ -56,6 +63,7 @@ public class Game {
 
         // Create Decks to players
         createDeck();
+        log.writePlayerDecks(players);
 
         System.out.println("Game Start! You are player 1 and your name is: " + players.get(0).getName() + ". Try to defeat " + aiNum + " AI players!");
 
@@ -75,7 +83,8 @@ public class Game {
 
 
             if (players.size() == 1){
-                System.out.println(players.get(0).getName() + " Win!");
+                System.out.println(players.get(0).getName() + " Win the Game! Congratulations!");
+                log.writeGameWinner(players.get(0));
 
                 if (players.get(0).getName() == p1.getName()){  
                     winner = 0;
@@ -97,7 +106,10 @@ public class Game {
                 break;
             }
             drawCard();
+            log.writeCommonPile(commonPile);
         }
+
+        log.close();
 
     }
 
@@ -191,6 +203,7 @@ public class Game {
 
             System.out.println("There are " + (p1.getDeck().size() - 1 ) + " cards left in your deck!");
         }
+        log.writeCurrentCard(players, p);
         chooseProperty();
     }
 
@@ -243,11 +256,14 @@ public class Game {
             //System.out.println("Press Enter to next round!");
             //sc.nextLine();
         }
+
     }
 
 
     // Check biggest property
     private void checkWin(int i){
+        log.writeSelectCategory(players, p, i);
+
         ArrayList<Integer> check = new ArrayList<Integer>();
         for (int k = 0; k < players.size(); k++) {
             check.add(players.get(k).getDeck().peek().getValues(i));
@@ -288,7 +304,10 @@ public class Game {
             }
             if(players.get(win).getName().equals("AI Player 4")){
             	ai4Win++;
-            }   
+            }
+
+            log.writeRoundWinner(players.get(win), 1);
+
         }
         // Have two+ same property
         else{
@@ -300,7 +319,9 @@ public class Game {
             System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
             showWinCard(players.get(win).getDeck().peek(),i);
             numDraw++;
+            log.writeRoundWinner(players.get(win), 0);
         }
+
 
         // Remove cards from this round
         for (int k = 0; k < players.size(); k++) {
@@ -321,6 +342,14 @@ public class Game {
                 System.out.println("\t" + ">" + " " + c.properties[j] + ": " + c.getValues(j));
             }
         }
+    }
+
+    public void newLog(){
+        log = new Log();
+    }
+
+    public void closeLog() {
+        log.close();
     }
 
     public int getNumGame() {

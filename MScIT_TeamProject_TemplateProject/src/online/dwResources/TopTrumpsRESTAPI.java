@@ -99,6 +99,7 @@ public class TopTrumpsRESTAPI {
 
 		// Add cards to card list
 		deck.addCards();
+		deck.shuffle();
 		System.out.println("########## Deck Size: " + deck.getStack().size());
 		players.add(p1);
 		System.out.println("########## Players Size: " + players.size());

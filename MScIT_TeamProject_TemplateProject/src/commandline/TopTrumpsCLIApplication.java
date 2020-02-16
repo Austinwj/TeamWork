@@ -14,8 +14,8 @@ public class TopTrumpsCLIApplication {
 	 */
 	public static void main(String[] args) {
 
-		//boolean writeGameLogsToFile = false; // Should we write game logs to file?
-		//if (args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
+		boolean writeGameLogsToFile = false; // Should we write game logs to file?
+		if (args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
 		
 		// State
 		boolean userWantsToQuit = false; // flag to check whether the user wants to quit the application
@@ -30,6 +30,8 @@ public class TopTrumpsCLIApplication {
 			Database db = new Database();
 			db.dropDatabase();
 			db.createTable();
+
+
 			while (true) {
 				System.out.println("Do you want to see past results or play a game?");
 				System.out.println("1: Play Game");
@@ -39,9 +41,15 @@ public class TopTrumpsCLIApplication {
 				Scanner sc = new Scanner(System.in);
 				Integer input = sc.nextInt();
 
-				if (input == 1) {	
+				if (input == 1) {
+					game.newLog();
+					if (writeGameLogsToFile == false) {
+						game.closeLog();
+					}
+
 					game.play();
 					db.uploadGameRecord(game.getNumGame(), game.getNumDraw(), game.getRound(), game.getWinner());
+
 					
 					if(game.getAiNum()==4) {
 						db.uploadRoundData(game.getNumGame(), 0, game.getHumanWin());
@@ -79,10 +87,10 @@ public class TopTrumpsCLIApplication {
 					System.exit(1);
 				}
 				else {
-					System.out.println("Sorry, input not recognised, please try again...");
+					System.out.println("Enter wrong! Please try again!");
 				}
 
-				userWantsToQuit=true; // use this when the user wants to exit the game
+				//userWantsToQuit=true; // use this when the user wants to exit the game
 			}
 
 			
