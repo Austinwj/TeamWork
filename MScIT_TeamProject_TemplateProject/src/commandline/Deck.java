@@ -30,7 +30,6 @@ public class Deck {
                 int firepower = Integer.parseInt(tokens[4]);
                 int cargo = Integer.parseInt(tokens[5]);
                 deck.push(new Card(description, size, speed, range, firepower, cargo));
-                Collections.shuffle(deck);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -43,6 +42,10 @@ public class Deck {
                 }
             }
         }
+    }
+
+    public void shuffle(){
+        Collections.shuffle(deck);
     }
 
 
