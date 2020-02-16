@@ -100,16 +100,13 @@ public class TopTrumpsRESTAPI {
 		// Add cards to card list
 		deck.addCards();
 		deck.shuffle();
-		System.out.println("########## Deck Size: " + deck.getStack().size());
 		players.add(p1);
-		System.out.println("########## Players Size: " + players.size());
 		this.aiNum = number;
 		for (int i = 0; i < aiNum ; i++){
 			String str = "AI Player " + (i + 1);
 			players.add(new Player(str));
 		}
 		createDeck();
-		System.out.println("########## Players Size: " + players.size());
 	}
 
 
@@ -149,10 +146,6 @@ public class TopTrumpsRESTAPI {
 			ArrayList<Integer> randChoose = new ArrayList<Integer>();
 			Random r = new Random();
 
-			System.out.println("########" + p.getName());
-			System.out.println("######## " + p.getDeck().size());
-
-			//System.out.println("Now turn is " + p.getName());
 			for (int k = 0; k < 5; k++) {
 				option.add(p.getDeck().peek().getValues(k));
 			}
@@ -217,7 +210,6 @@ public class TopTrumpsRESTAPI {
 			}
 		}
 
-		System.out.println("########## Players Size: " + players.size());
 	}
 
 	
@@ -331,8 +323,6 @@ public class TopTrumpsRESTAPI {
 		piles[5] = commonPile.size();
 
 		String pilesList = oWriter.writeValueAsString(piles);
-		System.out.println("##############" + pilesList);
-
 		return pilesList;
 
 	}
@@ -367,7 +357,6 @@ public class TopTrumpsRESTAPI {
 		int win = check.indexOf(Collections.max(check));
 		// Only have one big property
 		if (m == 1) {
-			System.out.println("Round " + round + ": " + players.get(win).getName() + " Win!");
 			int cp = commonPile.size();
 			for (int n = 0; n < cp; n++) {
 				players.get(win).getDeck().add(0, commonPile.pop());
@@ -381,7 +370,6 @@ public class TopTrumpsRESTAPI {
 				}
 			}
 
-			//showWinCard(players.get(win).getDeck().peek(),i);
 			roundWinner = win;
 			message = players.get(win).getName() + " Win! The Winning Card is " + "'" + players.get(win).getDeck().peek().getName() + "'";
 			p = players.get(win);
@@ -398,8 +386,6 @@ public class TopTrumpsRESTAPI {
 					Collections.shuffle(commonPile);
 				}
 			}
-			//System.out.println("This round was a Draw, common pile now has " + commonPile.size() + " cards");
-			//showWinCard(players.get(win).getDeck().peek(),i);
 			message = "Draw!" ;
 			numDraw++;
 		}
