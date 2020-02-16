@@ -9,13 +9,14 @@ public class Game {
 
     // Game statistics
     private int numGame;
-    private int aiWin;
+//  humanWin,ai1Win,ai2Win,ai3Win and ai4Win are rounds each player won in one game
     private int humanWin;
+    private int ai1Win;
+    private int ai2Win;
+	private int ai3Win;
+    private int ai4Win;
+    private int winner; // = 0 means Human win, = 1-4 means Ai 1-4 win
     private int numDraw;
-    private int avgDraw;
-    private int largestRound;
-    private ArrayList<Integer> roundCount = new ArrayList<Integer>();
-
     private ArrayList<Player> players = new ArrayList<Player>();
     private Stack<Card> commonPile = new Stack<Card>();
     private int aiNum;
@@ -76,50 +77,27 @@ public class Game {
             if (players.size() == 1){
                 System.out.println(players.get(0).getName() + " Win!");
 
-                if (players.get(0).getName() == p1.getName()){
-                    humanWin++;
+                if (players.get(0).getName() == p1.getName()){  
+                    winner = 0;
                 }
-                else {
-                    aiWin++;
+                if (players.get(0).getName().equals("AI Player 1")){   
+                    winner = 1;
                 }
-
+                if (players.get(0).getName().equals("AI Player 2")){   
+                    winner = 2;
+                }
+                if (players.get(0).getName().equals("AI Player 3")){   
+                    winner = 3;
+                }
+                if (players.get(0).getName().equals("AI Player 4")){   
+                    winner = 4;
+                }
                 // Add number of games and Reset round
-                numGame++;
-                roundCount.add(round);
-                round = 1;
+                numGame++;      
                 break;
             }
-
             drawCard();
-
         }
-
-
-        // --------Test-------
-        /*System.out.println(players.size());
-        System.out.println(deck.getStack().size());
-        for (Player player : players) {
-            System.out.println(player.getDeck().size());
-        }
-
-        System.out.println("----------");
-        for (int m = 0; m < players.get(0).getDeck().size() ; m++) {
-            System.out.print(players.get(0).getDeck().get(m).getName());
-            System.out.print(" ");
-        }
-        System.out.println("----------");
-
-        for (int m = 0; m < players.get(1).getDeck().size() ; m++) {
-            System.out.print(players.get(1).getDeck().get(m).getName());
-            System.out.print(" ");
-        }
-        System.out.println("----------");
-        for (int m = 0; m < players.get(2).getDeck().size() ; m++) {
-            System.out.print(players.get(2).getDeck().get(m).getName());
-            System.out.print(" ");
-        }*/
-
-
 
     }
 
@@ -296,6 +274,21 @@ public class Game {
 
             showWinCard(players.get(win).getDeck().peek(),i);
             p = players.get(win);
+            if(players.get(win).getName().equals(p1Name)) {
+            	humanWin++;
+            }
+            if(players.get(win).getName().equals("AI Player 1")){
+            	ai1Win++;
+            }
+            if(players.get(win).getName().equals("AI Player 2")){
+            	ai2Win++;
+            }
+            if(players.get(win).getName().equals("AI Player 3")){
+            	ai3Win++;
+            }
+            if(players.get(win).getName().equals("AI Player 4")){
+            	ai4Win++;
+            }   
         }
         // Have two+ same property
         else{
@@ -333,30 +326,53 @@ public class Game {
     public int getNumGame() {
         return numGame;
     }
+    
+	public int getAiNum() {
+		return aiNum;
+	}
+	
+    public int getAi1Win() {
+		return ai1Win;
+	}
 
-    public int getAiWin() {
-        return aiWin;
-    }
+
+	public int getAi2Win() {
+		return ai2Win;
+	}
+
+
+	public int getAi3Win() {
+		return ai3Win;
+	}
+
+
+	public int getAi4Win() {
+		return ai4Win;
+	}
 
     public int getHumanWin() {
         return humanWin;
     }
 
-    public int getAvgDraw() {
-        if (numGame == 0){
-            avgDraw = 0;
-            return avgDraw;
-        }
-        avgDraw = Math.round(numDraw / numGame);
-        return avgDraw;
+    public int getWinner() {
+        return winner;
+    }
+	
+    public int getNumDraw() {
+		return numDraw;
+	}
+
+	public int getRound() {
+		return round;
+	}	
+     
+    public void resetGetter() {
+    	round = 1;
+    	humanWin =0;
+    	ai1Win =0;
+    	ai2Win =0;
+    	ai3Win =0;
+    	ai4Win =0;
     }
 
-    public int getLargestRound() {
-        if (numGame == 0){
-            largestRound = 0;
-            return largestRound;
-        }
-        largestRound = Collections.max(roundCount);
-        return largestRound;
-    }
 }
