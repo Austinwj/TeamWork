@@ -263,16 +263,6 @@
             </button>
         </div>
 
-        <div style="background-color: #363636; height: 20px; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
-                Status:
-            </div>
-
-            <div id="StatusP1"
-                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Alive
-            </div>
-        </div>
 
     </div>
 
@@ -360,17 +350,6 @@
         </div>
 
 
-        <div style="background-color: #363636; height: 20px; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
-                Status:
-            </div>
-
-            <div id="StatusP2"
-                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Alive
-            </div>
-        </div>
-
     </div>
 
 
@@ -456,17 +435,6 @@
             </div>
         </div>
 
-
-        <div style="background-color: #363636; height: 20px; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
-                Status:
-            </div>
-
-            <div id="StatusP3"
-                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Alive
-            </div>
-        </div>
 
     </div>
 
@@ -554,17 +522,6 @@
         </div>
 
 
-        <div style="background-color: #363636; height: 20px; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
-                Status:
-            </div>
-
-            <div id="StatusP4"
-                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Alive
-            </div>
-        </div>
-
     </div>
 
 
@@ -651,16 +608,6 @@
         </div>
 
 
-        <div style="background-color: #363636; height: 20px; margin-top: 5px">
-            <div style="float: left; color: white; font-weight: bold; font-size: 15px; margin-left: 10px; line-height: 20px;">
-                Status:
-            </div>
-
-            <div id="StatusP5"
-                 style="float: right; color: white; font-weight: bold; font-size: 15px; margin-right: 30px; line-height: 20px;">
-                Alive
-            </div>
-        </div>
 
     </div>
 
@@ -966,7 +913,6 @@
                 document.getElementById("RangeP" + j).innerHTML = "";
                 document.getElementById("FirepowerP" + j).innerHTML = "";
                 document.getElementById("CargoP" + j).innerHTML = "";
-                document.getElementById("StatusP" + j).innerHTML = "Died!";
             }
             else{
                 document.getElementById("PictureP" + j).src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + list[i].name + ".jpg";
@@ -976,7 +922,6 @@
                 document.getElementById("RangeP" + j).innerHTML = list[i].range;
                 document.getElementById("FirepowerP" + j).innerHTML = list[i].firepower;
                 document.getElementById("CargoP" + j).innerHTML = list[i].cargo;
-                document.getElementById("StatusP" + j).innerHTML = "Alive";
             }
         }
 
@@ -1008,7 +953,6 @@
                 document.getElementById("RangeP" + j).innerHTML = "";
                 document.getElementById("FirepowerP" + j).innerHTML = "";
                 document.getElementById("CargoP" + j).innerHTML = "";
-                document.getElementById("StatusP" + j).innerHTML = "Died!";
 
                 if (i == 0) {
                     button1Status(0);
@@ -1027,7 +971,6 @@
                 document.getElementById("RangeP" + j).innerHTML = list[i].range;
                 document.getElementById("FirepowerP" + j).innerHTML = list[i].firepower;
                 document.getElementById("CargoP" + j).innerHTML = list[i].cargo;
-                document.getElementById("StatusP" + j).innerHTML = "Alive";
             }
         }
     }
@@ -1044,6 +987,7 @@
             var pilelist = jQuery.parseJSON(responseText);
 
             for (i = 0; i < 5; i++) {
+                var k = i + 1;
                 if (pilelist[i] == 0) {
                     continue;
                 } else {
