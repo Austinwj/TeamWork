@@ -181,6 +181,9 @@
 
         </div>
 
+        <img id="PictureP1" class="card-img-top"
+             src="https://i.imgur.com/hfR9Orq.png" style="margin-top: 5px; height: 8%">
+
         <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
             <div id="CardNameP1"
                  style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -289,6 +292,9 @@
             </div>
         </div>
 
+        <img id="PictureP2" class="card-img-top"
+             src="https://i.imgur.com/hfR9Orq.png" style="margin-top: 5px; height: 8%">
+
         <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
             <div id="CardNameP2"
                  style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -382,6 +388,9 @@
                 pile : &nbsp;
             </div>
         </div>
+
+        <img id="PictureP3" class="card-img-top"
+             src="https://i.imgur.com/hfR9Orq.png" style="margin-top: 5px; height: 8%">
 
         <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
             <div id="CardNameP3"
@@ -477,6 +486,9 @@
             </div>
         </div>
 
+        <img id="PictureP4" class="card-img-top"
+             src="https://i.imgur.com/hfR9Orq.png" style="margin-top: 5px; height: 8%">
+
         <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
             <div id="CardNameP4"
                  style="color: white; font-weight: bold; font-size: 20px; line-height: 20px;">
@@ -570,6 +582,9 @@
                 pile : &nbsp;
             </div>
         </div>
+
+        <img id="PictureP5" class="card-img-top"
+             src="https://i.imgur.com/hfR9Orq.png" style="margin-top: 5px; height: 8%">
 
         <div style="background-color: grey; height: 20px; margin-top: 5px; text-align: center">
             <div id="CardNameP5"
@@ -944,6 +959,7 @@
         for (i = 0; i < 5; i++) {
             var j = i + 1;
             if (list[i] == null) {
+                document.getElementById("PictureP" + j).src = "https://i.imgur.com/jzfwSpK.png";
                 document.getElementById("CardNameP" + j).innerHTML = "";
                 document.getElementById("SizeP" + j).innerHTML = "";
                 document.getElementById("SpeedP" + j).innerHTML = "";
@@ -953,6 +969,7 @@
                 document.getElementById("StatusP" + j).innerHTML = "Died!";
             }
             else{
+                document.getElementById("PictureP" + j).src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + list[i].name + ".jpg";
                 document.getElementById("CardNameP" + j).innerHTML = list[i].name;
                 document.getElementById("SizeP" + j).innerHTML = list[i].size;
                 document.getElementById("SpeedP" + j).innerHTML = list[i].speed;
@@ -964,6 +981,7 @@
         }
 
         for (i = 2; i < 6; i++) {
+            $('#PictureP' + i).attr("src", "https://i.imgur.com/hfR9Orq.png");
             $('#CardNameP'+i).empty();
             $('#SizeP'+i).empty();
             $('#SpeedP'+i).empty();
@@ -977,6 +995,7 @@
         for (i = 0; i < 5; i++) {
             var j = i + 1;
             if (list[i] == null) {
+                document.getElementById("PictureP" + j).src = "https://i.imgur.com/jzfwSpK.png";
                 document.getElementById("CardNameP" + j).innerHTML = "";
                 document.getElementById("SizeP" + j).innerHTML = "";
                 document.getElementById("SpeedP" + j).innerHTML = "";
@@ -995,6 +1014,7 @@
 
             }
             else{
+                document.getElementById("PictureP" + j).src = "http://dcs.gla.ac.uk/~richardm/TopTrumps/" + list[i].name + ".jpg";
                 document.getElementById("CardNameP" + j).innerHTML = list[i].name;
                 document.getElementById("SizeP" + j).innerHTML = list[i].size;
                 document.getElementById("SpeedP" + j).innerHTML = list[i].speed;
