@@ -174,6 +174,10 @@ public class TopTrumpsRESTAPI {
 	@Path("/choose")
 	public void choose(@QueryParam("Number") int num) throws IOException {
 
+		if (gameWinner == 1) {
+			return;
+		}
+
 		// Human player choose property
 		if (num >= 0 && num <= 4){
 			checkWin(num);
@@ -226,6 +230,7 @@ public class TopTrumpsRESTAPI {
 				if (players.get(c).getDeck().size() != 0){
 					message = "Winner is " + players.get(c).getName() + " !! Congratulations!";
 					gameWinner = 1;
+					numGame++;
 
 					if(players.get(c).getName().equals("Human Player")) {
 						humanWin++;
@@ -248,7 +253,6 @@ public class TopTrumpsRESTAPI {
 						winner = 1;
 					}
 
-					numGame++;
 
 					/*db.uploadGameRecord(getNumGame(), getNumDraw(), getRound(), getWinner());
 
@@ -293,6 +297,18 @@ public class TopTrumpsRESTAPI {
 	@Path("/getGameWinner")
 	public int getGameWinner() throws IOException{
 		return gameWinner;
+	}
+
+	@GET
+	@Path("autoPlay")
+	public void autoPlay() throws IOException {
+		while (true) {
+			if (gameWinner == 1){
+				return;
+			}
+			choose(5);
+
+		}
 	}
 
 

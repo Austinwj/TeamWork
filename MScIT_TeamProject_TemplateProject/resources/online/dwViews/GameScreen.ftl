@@ -703,6 +703,8 @@
 
     </div>
 
+    <div class="showFinalWinner" style="float: left; margin-top: 20px; width: 100%;">
+
 </div>
 
 <script type="text/javascript">
@@ -813,6 +815,7 @@
             $('#buttonNR').removeClass("button button3");
             $('#buttonNR').addClass("button button4");
             $('#message').html("<---- Press to Enter First Round");
+            $('.showFinalWinner').empty();
 
 
         } else if (num < "1") {
@@ -898,13 +901,13 @@
             alert("CORS not supported");
         }
         xhr.onload = function (e) {
-            getGameWinner();
             getRoundWinner();
             getPile();
             getRound();
             getMessage();
             getCard();
             printAllCard();
+            getGameWinner();
         };
 
         xhr.send();
@@ -988,6 +991,15 @@
                 document.getElementById("FirepowerP" + j).innerHTML = "";
                 document.getElementById("CargoP" + j).innerHTML = "";
                 document.getElementById("StatusP" + j).innerHTML = "Died!";
+
+                if (i == 0) {
+                    button1Status(0);
+                    button2Status(0);
+                    button3Status(0);
+                    showFinalWinnerButton();
+                    autoPlay();
+                }
+
             }
             else{
                 document.getElementById("CardNameP" + j).innerHTML = list[i].name;
@@ -1112,6 +1124,42 @@
 
     function saveGameStatistics() {
         var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/saveGameStatistics"); // Request type and URL
+        if (!xhr) {
+            alert("CORS not supported");
+        }
+        xhr.send();
+    }
+
+    function showFinalWinnerButton() {
+        button1Status(0);
+        button2Status(0);
+        button3Status(0);
+        $('.showFinalWinner').html("<div style=\"height: 20px; margin-top: 20px; width: 30%; margin-left: 35%\">\n" +
+            "            <button id=\"buttonSFW\" type=\"button\" class=\"button button2\" onclick=\"showFinalWinner()\"\n" +
+            "                    style=\"width: 100%; height: 20px; line-height: 15px;\">\n" +
+            "                Directly Show Final Winner\n" +
+            "            </button>\n" +
+            "\n" +
+            "        </div>");
+    }
+
+    function showFinalWinner() {
+        button1Status(0);
+        button2Status(0);
+        button3Status(0);
+
+        getPlayer();
+        getPile();
+        getRound();
+        getMessage();
+        getCard();
+        printAllCard();
+        $('#buttonSFW').attr("disabled",true);
+        getGameWinner();
+    }
+
+    function autoPlay() {
+        var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/autoPlay"); // Request type and URL
         if (!xhr) {
             alert("CORS not supported");
         }
